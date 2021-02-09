@@ -36,9 +36,21 @@ const styles = (theme) => ({
     }
 });
 
-const { classes } = props
 
 const SignUp = (props) => {
+
+    let [firstName, setFirstName]             = useState('')
+    let [lastName, setLastName]               = useState('')
+    let [phoneNumber, setPhoneNumber]         = useState('')
+    let [country, setCountry]                 = useState('')
+    let [userName, setUsername]               = useState('')
+    let [email, setEmail]                     = useState('')
+    let [password, setPassword]               = useState('')
+    let [confirmPassword, setConfirmPassword] = useState('')
+    let [errors, setErrors]                   = useState('')
+    let [loading, setLoading]                 = useState('')
+
+    const { classes } = props
 
     return(
         <div>
