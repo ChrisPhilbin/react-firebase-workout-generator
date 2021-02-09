@@ -215,15 +215,15 @@ const SignUp = (props) => {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onClick={this.handleSubmit}
+                        onClick={handleSubmit}
                         disabled={loading || 
-                            !this.state.email || 
-                            !this.state.password ||
-                            !this.state.firstName || 
-                            !this.state.lastName ||
-                            !this.state.country || 
-                            !this.state.username || 
-                            !this.state.phoneNumber}
+                            !password ||
+                            !email || 
+                            !firstName || 
+                            !lastName ||
+                            !country || 
+                            !userName || 
+                            !phoneNumber}
                     >
                         Sign Up
                         {loading && <CircularProgress size={30} className={classes.progess} />}
