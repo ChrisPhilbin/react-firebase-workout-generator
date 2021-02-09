@@ -50,6 +50,32 @@ const SignUp = (props) => {
     let [errors, setErrors]                   = useState('')
     let [loading, setLoading]                 = useState('')
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        setLoading(true)
+		const newUserData = {
+			firstName: firstName,
+			lastName: lastName,
+			phoneNumber: phoneNumber,
+			country: country,
+			username: userName,
+			email: email,
+			password: password,
+			confirmPassword: confirmPassword
+		};
+		axios
+			.post('/signup', newUserData)
+			.then((response) => {
+				localStorage.setItem('AuthToken', `${response.data.token}`);
+                setLoading(false)
+				props.history.push('/');
+			})
+			.catch((error) => {
+                setErrors(error.response.data)
+                setLoading(false)
+			});
+	};
+
     const { classes } = props
 
     return(
