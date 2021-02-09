@@ -60,10 +60,11 @@ const Login = (props) => {
             .then((response) => {
                 localStorage.setItem('AuthToken', `Bearer ${response.data.token}`);
                 setLoading(false)		
-                this.props.history.push('/');
+                props.history.push('/');
             })
             .catch((error) => {		
-                setErrors(error.response.data)		
+                console.log(error, "error logged")
+                // setErrors(error.response.data)		
                 setLoading(false)
             });
     };
