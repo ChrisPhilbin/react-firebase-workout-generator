@@ -51,6 +51,14 @@ const Exercise = (props) => {
 			.catch((err) => {
 				console.log(err);
 			});
+    }
+    
+    const handleEditClickOpen = (data) => {
+        setName(data.exercise.name)
+        setMuscleGroup(data.exercise.muscleGroup)
+        setExerciseId(data.exercise.exerciseId)
+        setButtonType('Edit')
+        setOpen(true)
 	}
 
     const { classes } = props
