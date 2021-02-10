@@ -4,7 +4,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import axios from 'axios'
 
-import authMiddleWare from '../util/Auth'
+import { authMiddleWare } from '../util/Auth'
 
 const styles = ((theme) => ({
     toolbar: theme.mixins.toolbar
