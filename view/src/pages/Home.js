@@ -99,31 +99,6 @@ const Home = (props) => {
 			});
 	}, [])
 	
-	// const renderComponent = (val) => {
-	// 	switch(val) {
-	// 		case 'account':
-	// 			return <Account />
-	// 		case 'exercise':
-	// 			return <Exercise />
-	// 		case 'workout':
-	// 			return <Workout />
-	// 		default:
-	// 			return <Workout />
-	// 	}
-	// }
-
-    // const loadAccountPage = (event) => {
-    //     setRender("account")
-	// }
-
-	// const loadGenerateWorkoutPage = (event) => {
-	// 	setRender("")
-	// }
-
-	// const loadExercisePage = (event) => {
-    //     setRender("exercise")
-	// }
-
 	const logoutHandler = (event) => {
 		localStorage.removeItem('AuthToken');
 		props.history.push('/login');
@@ -201,7 +176,6 @@ const Home = (props) => {
 					</List>
 				</Drawer>
 
-				{/* <div>{ render ? <Account /> : <Exercise /> }</div> */}
 				<div>
 					{
 						{
