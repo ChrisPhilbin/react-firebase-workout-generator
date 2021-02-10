@@ -21,7 +21,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Account from '../components/Account'
 import Exercise from '../components/Exercise'
 
-import authMiddleWare from '../util/Auth'
+import { authMiddleWare } from '../util/Auth'
 
 const drawerWidth = 240;
 
@@ -81,13 +81,13 @@ const Home = (props) => {
 		axios
 			.get('/user')
 			.then((response) => {
-                setFirstName(response.data.userCredentials.firstName),
-                setLastName(response.data.userCredentials.lastName),
-                setEmail(response.data.userCredentials.email),
-                setPhoneNumber(response.data.userCredentials.phoneNumber),
-                setCountry(response.data.userCredentials.country),
-                setUserName(response.data.userCredentials.username),
-                setUiLoading(false),
+                setFirstName(response.data.userCredentials.firstName)
+                setLastName(response.data.userCredentials.lastName)
+                setEmail(response.data.userCredentials.email)
+                setPhoneNumber(response.data.userCredentials.phoneNumber)
+                setCountry(response.data.userCredentials.country)
+                setUserName(response.data.userCredentials.username)
+                setUiLoading(false)
                 setProfilePicture(response.data.userCredentials.imageUrl)
 			})
 			.catch((error) => {
@@ -102,7 +102,7 @@ const Home = (props) => {
         setRender(true)
 	}
 
-	const loadTodoPage = (event) => {
+	const loadExercisePage = (event) => {
         setRender(false)
 	}
 
@@ -111,11 +111,73 @@ const Home = (props) => {
 		props.history.push('/login');
 	};
 
-    return(
-        <div>
-            Home
-        </div>
-    )
+	const { classes } = props;	
+
+	if (uiLoading === true) {
+		return (
+			<div className={classes.root}>
+				{uiLoading && <CircularProgress size={150} className={classes.uiProgess} />}
+			</div>
+		);
+	} else {
+		return (
+			<div className={classes.root}>
+				<CssBaseline />
+				<AppBar position="fixed" className={classes.appBar}>
+					<Toolbar>
+						<Typography variant="h6" noWrap>
+							Random Workout Generator
+						</Typography>
+					</Toolbar>
+				</AppBar>
+				<Drawer
+					className={classes.drawer}
+					variant="permanent"
+					classes={{
+						paper: classes.drawerPaper
+					}}
+				>
+					<div className={classes.toolbar} />
+					<Divider />
+					<center>
+						<Avatar src={profilePicture} className={classes.avatar} />
+						<p>
+							{' '}
+							{firstName} {lastName}
+						</p>
+					</center>
+					<Divider />
+					<List>
+						<ListItem button key="Exercise" onClick={loadExercisePage}>
+							<ListItemIcon>
+								{' '}
+								<NotesIcon />{' '}
+							</ListItemIcon>
+							<ListItemText primary="Exercises" />
+						</ListItem>
+
+						<ListItem button key="Account" onClick={loadAccountPage}>
+							<ListItemIcon>
+								{' '}
+								<AccountBoxIcon />{' '}
+							</ListItemIcon>
+							<ListItemText primary="Account" />
+						</ListItem>
+
+						<ListItem button key="Logout" onClick={logoutHandler}>
+							<ListItemIcon>
+								{' '}
+								<ExitToAppIcon />{' '}
+							</ListItemIcon>
+							<ListItemText primary="Logout" />
+						</ListItem>
+					</List>
+				</Drawer>
+
+				<div>{render ? <Account /> : <Exercise />}</div>
+			</div>
+		);
+	}
 }
 
 export default withStyles(styles)(Home)
