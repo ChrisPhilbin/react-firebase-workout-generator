@@ -20,6 +20,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Account from '../components/Account'
 import Exercise from '../components/Exercise'
+import Workout from '../components/Workout'
 
 import { authMiddleWare } from '../util/Auth'
 
@@ -148,6 +149,15 @@ const Home = (props) => {
 					</center>
 					<Divider />
 					<List>
+
+						<ListItem button key="Workout" onClick={loadExercisePage}>
+							<ListItemIcon>
+								{' '}
+								<NotesIcon />{' '}
+							</ListItemIcon>
+							<ListItemText primary="Generate Workout" />
+						</ListItem>
+						
 						<ListItem button key="Exercise" onClick={loadExercisePage}>
 							<ListItemIcon>
 								{' '}
