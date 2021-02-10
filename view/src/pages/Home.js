@@ -64,7 +64,7 @@ const styles = (theme) => ({
 
 const Home = (props) => {
 
-    let [render, setRender]                 = useState(false)
+    let [render, setRender]                 = useState('exercise')
     let [firstName, setFirstName]           = useState('')
     let [lastName, setLastName]             = useState('')
     let [email, setEmail]                   = useState('')
@@ -97,15 +97,32 @@ const Home = (props) => {
 				}
 				setErrors({ errorMsg: 'Error in retrieving the data' });
 			});
-    }, [])
+	}, [])
+	
+	// const renderComponent = (val) => {
+	// 	switch(val) {
+	// 		case 'account':
+	// 			return <Account />
+	// 		case 'exercise':
+	// 			return <Exercise />
+	// 		case 'workout':
+	// 			return <Workout />
+	// 		default:
+	// 			return <Workout />
+	// 	}
+	// }
 
-    const loadAccountPage = (event) => {
-        setRender(true)
-	}
+    // const loadAccountPage = (event) => {
+    //     setRender("account")
+	// }
 
-	const loadExercisePage = (event) => {
-        setRender(false)
-	}
+	// const loadGenerateWorkoutPage = (event) => {
+	// 	setRender("")
+	// }
+
+	// const loadExercisePage = (event) => {
+    //     setRender("exercise")
+	// }
 
 	const logoutHandler = (event) => {
 		localStorage.removeItem('AuthToken');
@@ -150,7 +167,7 @@ const Home = (props) => {
 					<Divider />
 					<List>
 
-						<ListItem button key="Workout" onClick={loadExercisePage}>
+						<ListItem button key="Workout" onClick={() => setRender("workout")}>
 							<ListItemIcon>
 								{' '}
 								<NotesIcon />{' '}
@@ -158,7 +175,7 @@ const Home = (props) => {
 							<ListItemText primary="Generate Workout" />
 						</ListItem>
 						
-						<ListItem button key="Exercise" onClick={loadExercisePage}>
+						<ListItem button key="Exercise" onClick={() => setRender("exercise")}>
 							<ListItemIcon>
 								{' '}
 								<NotesIcon />{' '}
@@ -166,7 +183,7 @@ const Home = (props) => {
 							<ListItemText primary="Exercises" />
 						</ListItem>
 
-						<ListItem button key="Account" onClick={loadAccountPage}>
+						<ListItem button key="Account" onClick={() => setRender("account")}>
 							<ListItemIcon>
 								{' '}
 								<AccountBoxIcon />{' '}
@@ -184,7 +201,18 @@ const Home = (props) => {
 					</List>
 				</Drawer>
 
-				<div>{render ? <Account /> : <Exercise />}</div>
+				{/* <div>{ render ? <Account /> : <Exercise /> }</div> */}
+				<div>
+					{
+						{
+							'exercise': <Exercise />,
+							'workout': <Workout />,
+							'account': <Account />
+						}[render] || <Workout />
+					}
+				</div>
+				
+
 			</div>
 		);
 	}
