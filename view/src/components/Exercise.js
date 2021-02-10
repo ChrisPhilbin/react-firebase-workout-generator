@@ -38,6 +38,21 @@ const Exercise = (props) => {
 			});
     }, [])
 
+    const deleteExerciseHandler = (data) => {
+		authMiddleWare(props.history);
+		const authToken = localStorage.getItem('AuthToken');
+		axios.defaults.headers.common = { Authorization: `${authToken}` };
+		let exerciseId = data.Exercise.exerciseId;
+		axios
+			.delete(`exercises/${exerciseId}`)
+			.then(() => {
+				window.location.reload();
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
+
     const { classes } = props
 
     return(
