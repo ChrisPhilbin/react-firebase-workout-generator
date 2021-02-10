@@ -21,6 +21,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Account from '../components/Account'
 import Exercise from '../components/Exercise'
 
+import authMiddleWare from '../util/Auth'
+
 const drawerWidth = 240;
 
 const styles = (theme) => ({
