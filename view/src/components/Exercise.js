@@ -224,18 +224,156 @@ const Exercise = (props) => {
 
     const { classes } = props
 
-    return(
-        <>
-            <div className={classes.toolbar} />
+    if (uiLoading === true) {
+        return (
+            <main className={classes.content}>
+                <div className={classes.toolbar} />
+                {uiLoading && <CircularProgress size={150} className={classes.uiProgess} />}
+            </main>
+        );
+    } else {
+        return (
+            <main className={classes.content}>
+                <div className={classes.toolbar} />
 
-            <div>
-                <h1>Exercise component</h1><br />
-                <h1>Exercise component</h1><br />
-                <h1>Exercise component</h1><br />
-                <h1>Exercise component</h1><br />
-            </div>
-        </>
-    )
+                <IconButton
+                    className={classes.floatingButton}
+                    color="primary"
+                    aria-label="Add Exercise"
+                    onClick={handleClickOpen}
+                >
+                    <AddCircleIcon style={{ fontSize: 60 }} />
+                </IconButton>
+                <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+                    <AppBar className={classes.appBar}>
+                        <Toolbar>
+                            <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+                                <CloseIcon />
+                            </IconButton>
+                            <Typography variant="h6" className={classes.title}>
+                                {buttonType === 'Edit' ? 'Edit Exercise' : 'Create a new Exercise'}
+                            </Typography>
+                            <Button
+                                autoFocus
+                                color="inherit"
+                                onClick={handleSubmit}
+                                className={classes.submitButton}
+                            >
+                                {buttonType === 'Edit' ? 'Save' : 'Submit'}
+                            </Button>
+                        </Toolbar>
+                    </AppBar>
+
+                    <form className={classes.form} noValidate>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="ExerciseName"
+                                    label="Exercise Name"
+                                    name="name"
+                                    autoComplete="exerciseName"
+                                    helperText={errors.name}
+                                    value={name}
+                                    error={errors.name ? true : false}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="exercisMuslceGroup"
+                                    label="Exercise Muscle Group"
+                                    name="muscleGroup"
+                                    autoComplete="exerciseMuscleGroup"
+                                    helperText={errors.muscleGroup}
+                                    error={errors.muscleGroup ? true : false}
+                                    onChange={(e) => setMuscleGroup(e.target.value)}
+                                    value={muscleGroup}
+                                />
+                            </Grid>
+                        </Grid>
+                    </form>
+                </Dialog>
+
+                <Grid container spacing={2}>
+                    {exercises.map((exercise) => (
+                        <Grid item xs={12} sm={6} key={exercise.exerciseId}>
+                            <Card className={classes.root} variant="outlined">
+                                <CardContent>
+                                    <Typography variant="h5" component="h2">
+                                        {exercise.name}
+                                    </Typography>
+                                    <Typography className={classes.pos} color="textSecondary">
+                                        {dayjs(exercise.createdAt).fromNow()}
+                                    </Typography>
+                                    <Typography variant="body2" component="p">
+                                        {exercise.muscleGroup}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Button size="small" color="primary" onClick={() => handleViewOpen({ exercise })}>
+                                        {' '}
+                                        View{' '}
+                                    </Button>
+                                    <Button size="small" color="primary" onClick={() => handleEditClickOpen({ exercise })}>
+                                        Edit
+                                    </Button>
+                                    <Button size="small" color="primary" onClick={() => deleteExerciseHandler({ exercise })}>
+                                        Delete
+                                    </Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+
+                <Dialog
+                    onClose={handleViewClose}
+                    aria-labelledby="customized-dialog-title"
+                    open={viewOpen}
+                    fullWidth
+                    classes={{ paperFullWidth: classes.dialogeStyle }}
+                >
+                    <DialogTitle id="customized-dialog-title" onClose={handleViewClose}>
+                        {name}
+                    </DialogTitle>
+                    <DialogContent dividers>
+                        <TextField
+                            fullWidth
+                            id="exerciseMuscleGroup"
+                            name="muscleGroup"
+                            multiline
+                            readonly
+                            rows={1}
+                            rowsMax={25}
+                            value={muscleGroup}
+                            InputProps={{
+                                disableUnderline: true
+                            }}
+                        />
+                    </DialogContent>
+                </Dialog>
+            </main>
+        );
+    }
+
+    // return(
+    //     <>
+    //         <div className={classes.toolbar} />
+
+    //         <div>
+    //             <h1>Exercise component</h1><br />
+    //             <h1>Exercise component</h1><br />
+    //             <h1>Exercise component</h1><br />
+    //             <h1>Exercise component</h1><br />
+    //         </div>
+    //     </>
+    // )
 }
 
 export default withStyles(styles)(Exercise)
