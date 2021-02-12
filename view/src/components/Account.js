@@ -150,9 +150,8 @@ const Account = (props) => {
 			})
 			.catch((error) => {
 				if (error.response.status === 403) {
-					props.history.push('/login');
+					props.history.push('/login')
 				}
-				console.log(error);
 				setButtonLoading(false)
 			})
 	}
@@ -166,7 +165,7 @@ const Account = (props) => {
 					<div className={classes.toolbar} />
 					{uiLoading && <CircularProgress size={150} className={classes.uiProgess} />}
 				</main>
-			);
+			)
 		} else {
 			return (
 				<main className={classes.content}>
