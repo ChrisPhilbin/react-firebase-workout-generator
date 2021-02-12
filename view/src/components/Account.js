@@ -9,7 +9,7 @@ import { Card, CardActions, CardContent, Divider, Button, Grid, TextField } from
 import clsx from 'clsx';
 
 import axios from 'axios';
-import { authMiddleWare } from '../util/auth';
+import { authMiddleWare } from '../util/Auth';
 
 const styles = (theme) => ({
 	content: {
@@ -71,33 +71,33 @@ const Account = (props) => {
     let [uiLoading, setUiLoading]           = useState(true)
     let [buttonLoading, setButtonLoading]   = useState(false)
     let [imageError, setImageError]         = useState('')
-    let [image, setImage]                   = useState('')
+	let [image, setImage]                   = useState('')
+	let [content, setContent]               = useState('')
+	let [errorMsg, setErrorMsg]             = useState('')
 
     useEffect(() =>{ 
-        authMiddleWare(this.props.history);
+        authMiddleWare(props.history);
 		const authToken = localStorage.getItem('AuthToken');
 		axios.defaults.headers.common = { Authorization: `${authToken}` };
 		axios
 			.get('/user')
 			.then((response) => {
 				console.log(response.data);
-				this.setState({
-					firstName: response.data.userCredentials.firstName,
-					lastName: response.data.userCredentials.lastName,
-					email: response.data.userCredentials.email,
-					phoneNumber: response.data.userCredentials.phoneNumber,
-					country: response.data.userCredentials.country,
-					username: response.data.userCredentials.username,
-					uiLoading: false
-				});
+				setFirstName(response.data.userCredentials.firstName)
+				setLastName(response.data.userCredentials.lastName)
+				setEmail(response.data.userCredentials.email)
+				setPhoneNumber(response.data.userCredentials.phoneNumber)
+				setCountry(response.data.userCredentials.country)
+				setUserName(response.data.userCredentials.username)
+				setUiLoading(false)
 			})
 			.catch((error) => {
 				if (error.response.status === 403) {
-					this.props.history.push('/login');
+					props.history.push('/login');
 				}
 				console.log(error);
-				this.setState({ errorMsg: 'Error in retrieving the data' });
-			});
+				setErrorMsg('Error in retreiving the data')
+			})
     }, [])
 
 	const handleImageChange = (event) => {
@@ -106,14 +106,12 @@ const Account = (props) => {
 
 	const profilePictureHandler = (event) => {
 		event.preventDefault();
-		this.setState({
-			uiLoading: true
-		});
-		authMiddleWare(this.props.history);
+		setUiLoading(true)
+		authMiddleWare(props.history);
 		const authToken = localStorage.getItem('AuthToken');
 		let form_data = new FormData();
-		form_data.append('image', this.state.image);
-		form_data.append('content', this.state.content);
+		form_data.append('image', image);
+		form_data.append('content', setContent(content));
 		axios.defaults.headers.common = { Authorization: `${authToken}` };
 		axios
 			.post('/user/image', form_data, {
@@ -126,50 +124,47 @@ const Account = (props) => {
 			})
 			.catch((error) => {
 				if (error.response.status === 403) {
-					this.props.history.push('/login');
+					props.history.push('/login');
 				}
 				console.log(error);
-				this.setState({
-					uiLoading: false,
-					imageError: 'Error in posting the data'
-				});
-			});
-	};
+				setUiLoading(false)
+				setImageError("Error in posting the data")
+			})
+	}
 
-	updateFormValues = (event) => {
+	const updateFormValues = (event) => {
 		event.preventDefault();
-		this.setState({ buttonLoading: true });
-		authMiddleWare(this.props.history);
+		setButtonLoading(true)
+		authMiddleWare(props.history);
 		const authToken = localStorage.getItem('AuthToken');
 		axios.defaults.headers.common = { Authorization: `${authToken}` };
 		const formRequest = {
-			firstName: this.state.firstName,
-			lastName: this.state.lastName,
-			country: this.state.country
-		};
+			firstName: firstName,
+			lastName:  lastName,
+			country:   country
+		}
 		axios
 			.post('/user', formRequest)
 			.then(() => {
-				this.setState({ buttonLoading: false });
+				setButtonLoading(false)
 			})
 			.catch((error) => {
 				if (error.response.status === 403) {
-					this.props.history.push('/login');
+					props.history.push('/login');
 				}
 				console.log(error);
-				this.setState({
-					buttonLoading: false
-				});
-			});
-	};
+				setButtonLoading(false)
+			})
+	}
 
-	render() {
-		const { classes, ...rest } = this.props;
-		if (this.state.uiLoading === true) {
+	
+		const { classes, ...rest } = props;
+
+		if (uiLoading === true) {
 			return (
 				<main className={classes.content}>
 					<div className={classes.toolbar} />
-					{this.state.uiLoading && <CircularProgress size={150} className={classes.uiProgess} />}
+					{uiLoading && <CircularProgress size={150} className={classes.uiProgess} />}
 				</main>
 			);
 		} else {
@@ -181,7 +176,7 @@ const Account = (props) => {
 							<div className={classes.details}>
 								<div>
 									<Typography className={classes.locationText} gutterBottom variant="h4">
-										{this.state.firstName} {this.state.lastName}
+										{firstName} {lastName}
 									</Typography>
 									<Button
 										variant="outlined"
@@ -190,13 +185,13 @@ const Account = (props) => {
 										size="small"
 										startIcon={<CloudUploadIcon />}
 										className={classes.uploadButton}
-										onClick={this.profilePictureHandler}
+										onClick={profilePictureHandler}
 									>
 										Upload Photo
 									</Button>
-									<input type="file" onChange={this.handleImageChange} />
+									<input type="file" onChange={handleImageChange} />
 
-									{this.state.imageError ? (
+									{imageError ? (
 										<div className={classes.customError}>
 											{' '}
 											Wrong Image Format || Supported Format are PNG and JPG
@@ -224,8 +219,8 @@ const Account = (props) => {
 											margin="dense"
 											name="firstName"
 											variant="outlined"
-											value={this.state.firstName}
-											onChange={this.handleChange}
+											value={firstName}
+											onChange={(e) => setFirstName(e.target.value)}
 										/>
 									</Grid>
 									<Grid item md={6} xs={12}>
@@ -235,8 +230,8 @@ const Account = (props) => {
 											margin="dense"
 											name="lastName"
 											variant="outlined"
-											value={this.state.lastName}
-											onChange={this.handleChange}
+											value={lastName}
+											onChange={(e) => setLastName(e.target.value)}
 										/>
 									</Grid>
 									<Grid item md={6} xs={12}>
@@ -247,8 +242,8 @@ const Account = (props) => {
 											name="email"
 											variant="outlined"
 											disabled={true}
-											value={this.state.email}
-											onChange={this.handleChange}
+											value={email}
+											onChange={(e) => setEmail(e.target.value)}
 										/>
 									</Grid>
 									<Grid item md={6} xs={12}>
@@ -260,8 +255,8 @@ const Account = (props) => {
 											type="number"
 											variant="outlined"
 											disabled={true}
-											value={this.state.phoneNumber}
-											onChange={this.handleChange}
+											value={phoneNumber}
+											onChange={(e) => setPhoneNumber(e.target.value)}
 										/>
 									</Grid>
 									<Grid item md={6} xs={12}>
@@ -272,8 +267,8 @@ const Account = (props) => {
 											name="userHandle"
 											disabled={true}
 											variant="outlined"
-											value={this.state.username}
-											onChange={this.handleChange}
+											value={userName}
+											onChange={(e) => setUserName(e.target.value)}
 										/>
 									</Grid>
 									<Grid item md={6} xs={12}>
@@ -283,8 +278,8 @@ const Account = (props) => {
 											margin="dense"
 											name="country"
 											variant="outlined"
-											value={this.state.country}
-											onChange={this.handleChange}
+											value={country}
+											onChange={(e) => setCountry(e.target.value)}
 										/>
 									</Grid>
 								</Grid>
@@ -298,21 +293,21 @@ const Account = (props) => {
 						variant="contained"
 						type="submit"
 						className={classes.submitButton}
-						onClick={this.updateFormValues}
+						onClick={updateFormValues}
 						disabled={
-							this.state.buttonLoading ||
-							!this.state.firstName ||
-							!this.state.lastName ||
-							!this.state.country
+							buttonLoading ||
+							!firstName ||
+							!lastName ||
+							!country
 						}
 					>
 						Save details
-						{this.state.buttonLoading && <CircularProgress size={30} className={classes.progess} />}
+						{buttonLoading && <CircularProgress size={30} className={classes.progess} />}
 					</Button>
 				</main>
 			);
 		}
-	}
+
 }
 
-export default withStyles(styles)(account);
+export default withStyles(styles)(Account);
