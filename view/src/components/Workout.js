@@ -8,9 +8,23 @@ const styles = (theme) => ({
 
     toolbar: theme.mixins.toolbar,
     root: {
-        width: 300
-    }
-
+      width: 300
+    },
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+      maxWidth: 300,
+    },
+    chips: {
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+    chip: {
+      margin: 2,
+    },
+    noLabel: {
+      marginTop: theme.spacing(3),
+    },
 })
 
 const Workout = (props) => {
@@ -36,6 +50,31 @@ const Workout = (props) => {
       setRepRange(newValue);
     };
 
+    const muscleGroups = [
+      shoulders,
+      chest,
+      biceps,
+      triceps,
+      back,
+      legs
+    ]
+
+    let [selectedExercises, setSelectedExercises] = useState([])
+
+    const handleExerciseChange = (event) => {
+      setSelectedExercises(event.target.value);
+    }
+
+    const handleExerciseChangeMultiple = (event) => {
+      const { options } = event.target;
+      const value = [];
+      for (let i = 0, l = options.length; i < l; i += 1) {
+        if (options[i].selected) {
+          value.push(options[i].value);
+        }
+      }
+      setSelectedExercises(value);
+    }
   
     return (
     <>
@@ -59,6 +98,7 @@ const Workout = (props) => {
         <Typography id="range-slider" gutterBottom>
           Select range of reps
         </Typography>
+
         <Slider
           value={repRange}
           min={5}
@@ -68,6 +108,36 @@ const Workout = (props) => {
           aria-labelledby="range-slider"
           getAriaValueText={reptext}
         />
+
+        <FormControl className={clsx(classes.formControl, classes.noLabel)}>
+        <Select
+          multiple
+          displayEmpty
+          value={selectedExercises}
+          onChange={handleChange}
+          input={<Input />}
+          renderValue={(selected) => {
+            if (selected.length === 0) {
+              return <em>Select muscle group(s)</em>;
+            }
+
+            return selected.join(', ');
+          }}
+          MenuProps={MenuProps}
+          inputProps={{ 'aria-label': 'Without label' }}
+        >
+          <MenuItem disabled value="">
+            <em>Select muscle group(s)</em>
+          </MenuItem>
+          {muscleGroups.map((name) => (
+            <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+              {name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+
       </div>
     </>
     )
