@@ -21,6 +21,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Account from '../components/Account'
 import Exercise from '../components/Exercise'
 import Workout from '../components/Workout'
+import PreviousWorkout from '../components/PreviousWorkout';
 
 import { authMiddleWare } from '../util/Auth'
 
@@ -149,6 +150,14 @@ const Home = (props) => {
 							</ListItemIcon>
 							<ListItemText primary="Generate Workout" />
 						</ListItem>
+
+						<ListItem button key="Previous Workouts" onClick={() => setRender("previous")}>
+							<ListItemIcon>
+								{' '}
+								<NotesIcon />{' '}
+							</ListItemIcon>
+							<ListItemText primary="Previous Workouts" />
+						</ListItem>
 						
 						<ListItem button key="Exercise" onClick={() => setRender("exercise")}>
 							<ListItemIcon>
@@ -181,7 +190,8 @@ const Home = (props) => {
 						{
 							'exercise': <Exercise />,
 							'workout': <Workout />,
-							'account': <Account />
+							'account': <Account />,
+							'previous': <PreviousWorkout />
 						}[render] || <Workout />
 					}
 				</div>

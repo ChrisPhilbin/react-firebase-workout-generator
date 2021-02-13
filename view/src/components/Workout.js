@@ -4,9 +4,21 @@ import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider'
 import withStyles from '@material-ui/core/styles/withStyles';
 
+import clsx from 'clsx';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import ListItemText from '@material-ui/core/ListItemText';
+import Select from '@material-ui/core/Select';
+import Checkbox from '@material-ui/core/Checkbox';
+import Chip from '@material-ui/core/Chip';
+
 const styles = (theme) => ({
 
     toolbar: theme.mixins.toolbar,
+
     root: {
       width: 300
     },
@@ -51,21 +63,21 @@ const Workout = (props) => {
     };
 
     const muscleGroups = [
-      shoulders,
-      chest,
-      biceps,
-      triceps,
-      back,
-      legs
+      'shoulders',
+      'chest',
+      'biceps',
+      'triceps',
+      'back',
+      'legs'
     ]
 
     let [selectedExercises, setSelectedExercises] = useState([])
 
-    const handleExerciseChange = (event) => {
+    const handleMuscleGroupChange = (event) => {
       setSelectedExercises(event.target.value);
     }
 
-    const handleExerciseChangeMultiple = (event) => {
+    const handleMuscleGroupChangeMultiple = (event) => {
       const { options } = event.target;
       const value = [];
       for (let i = 0, l = options.length; i < l; i += 1) {
@@ -75,10 +87,20 @@ const Workout = (props) => {
       }
       setSelectedExercises(value);
     }
+
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+      PaperProps: {
+        style: {
+          maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+          width: 250,
+        },
+      },
+    }
   
     return (
     <>
-    {console.log(exerciseRange)}
       <div className={classes.toolbar} />
 
       <div className={classes.root}>
@@ -114,7 +136,7 @@ const Workout = (props) => {
           multiple
           displayEmpty
           value={selectedExercises}
-          onChange={handleChange}
+          onChange={handleMuscleGroupChange}
           input={<Input />}
           renderValue={(selected) => {
             if (selected.length === 0) {
@@ -130,7 +152,7 @@ const Workout = (props) => {
             <em>Select muscle group(s)</em>
           </MenuItem>
           {muscleGroups.map((name) => (
-            <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+            <MenuItem key={name} value={name}>
               {name}
             </MenuItem>
           ))}
