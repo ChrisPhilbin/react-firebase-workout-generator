@@ -93,15 +93,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const Exercise = (props) => {
 
-    let [exercises, setExercises]     = useState('')
-    let [name, setName]               = useState('')
-    let [muscleGroup, setMuscleGroup] = useState('')
-    let [exerciseId, setExerciseId]   = useState('')
-    let [errors, setErrors]           = useState([])
-    let [open, setOpen]               = useState('')
-    let [uiLoading, setUiLoading]     = useState(true)
-    let [buttonType, setButtonType]   = useState('')
-    let [viewOpen, setViewOpen]       = useState(false)
+    let [exercises, setExercises]                         = useState('')
+    let [name, setName]                                   = useState('')
+    let [muscleGroup, setMuscleGroup]                     = useState('')
+    let [exerciseId, setExerciseId]                       = useState('')
+    let [errors, setErrors]                               = useState([])
+    let [open, setOpen]                                   = useState('')
+    let [uiLoading, setUiLoading]                         = useState(true)
+    let [buttonType, setButtonType]                       = useState('')
+    let [viewOpen, setViewOpen]                           = useState(false)
+    let [availableMuscleGroups, setAvailableMuscleGroups] = useState('')
 
     useEffect(() => {
         authMiddleWare(props.history);
@@ -117,6 +118,22 @@ const Exercise = (props) => {
 				console.log(err);
 			});
     }, [])
+
+    useEffect(() => {
+        authMiddleWare(props.history);
+		const authToken = localStorage.getItem('AuthToken');
+		axios.defaults.headers.common = { Authorization: `${authToken}` };
+		axios
+			.get('/muscleGroups')
+			.then((response) => {
+                setAvailableMuscleGroups(response.data)
+                setUiLoading(false)
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+    }, [])
+
 
     const deleteExerciseHandler = (data) => {
 		authMiddleWare(props.history);

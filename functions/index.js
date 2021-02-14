@@ -35,6 +35,6 @@ const {
     getAllMuscleGroups
 } = require('./api/muscleGroups')
 
-app.get('/muscleGroups', auth, getAllMuscleGroups)
+app.get('/muscleGroups', getAllMuscleGroups)
 
 exports.api = functions.https.onRequest(app);
