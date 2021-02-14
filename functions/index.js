@@ -31,4 +31,10 @@ app.post('/user/image', auth, uploadProfilePhoto);
 app.get('/user', auth, getUserDetail);
 app.post('/user', auth, updateUserDetails);
 
+const {
+    getAllMuscleGroups
+} = require('./api/muscleGroups')
+
+app.get('/muscleGroups', auth, getAllMuscleGroups)
+
 exports.api = functions.https.onRequest(app);
