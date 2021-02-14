@@ -14,6 +14,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
+import axios from 'axios'
+
+import { authMiddleWare } from '../util/Auth'
 
 const styles = (theme) => ({
 
@@ -41,10 +44,25 @@ const styles = (theme) => ({
 
 const Workout = (props) => {
 
-    const [exerciseRange, setExerciseRange] = useState([8, 15])
-    const [repRange, setRepRange]           = useState([8, 12])
+    let [exerciseRange, setExerciseRange] = useState([8, 15])
+    let [repRange, setRepRange]           = useState([8, 12])
+    let [exercises, setExercises]         = useState([])
 
     const { classes } = props
+
+  useEffect(() => {
+    authMiddleWare(props.history);
+    const authToken = localStorage.getItem('AuthToken');
+    axios.defaults.headers.common = { Authorization: `${authToken}` };
+    axios
+      .get('/exercises')
+      .then((response) => {
+        setExercises(response.data)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, [])
 
     const exercisetext = (value) => {
         return `Between ${exerciseRange[0]} and ${exerciseRange[1]} number of exercises`
