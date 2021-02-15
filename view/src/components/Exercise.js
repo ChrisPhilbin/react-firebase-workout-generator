@@ -266,8 +266,8 @@ const Exercise = (props) => {
                     >
                         <AddCircleIcon style={{ fontSize: 60 }} />
                     </IconButton>
-                    <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
-                    <div className={classes.toolbar} />
+                    <Dialog open={open} onClose={handleClose} TransitionComponent={Transition}>
+                        <DialogTitle id="dialog-title">Create a new exercise</DialogTitle>
                         <AppBar className={classes.appBar}>
                             <Toolbar>
                                 <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
@@ -293,10 +293,10 @@ const Exercise = (props) => {
                                     <TextField
                                         variant="outlined"
                                         required
-                                        fullWidth
                                         id="ExerciseName"
                                         label="Exercise Name"
                                         name="name"
+                                        side="medium"
                                         autoComplete="exerciseName"
                                         helperText={errors.name}
                                         value={name}
