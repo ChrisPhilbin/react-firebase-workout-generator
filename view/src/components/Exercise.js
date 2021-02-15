@@ -130,37 +130,6 @@ const Exercise = (props) => {
         fetchData();
       }, []);
 
-    // useEffect(() => {
-    //     authMiddleWare(props.history);
-	// 	const authToken = localStorage.getItem('AuthToken');
-	// 	axios.defaults.headers.common = { Authorization: `${authToken}` };
-	// 	axios
-	// 		.get('/exercises')
-	// 		.then((response) => {
-    //             setExercises(response.data)
-    //             setUiLoading(false)
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(err);
-	// 		});
-    // }, [])
-
-    // useEffect(() => {
-    //     authMiddleWare(props.history);
-	// 	const authToken = localStorage.getItem('AuthToken');
-	// 	axios.defaults.headers.common = { Authorization: `${authToken}` };
-	// 	axios
-	// 		.get('/muscleGroups')
-	// 		.then((response) => {
-    //             setAvailableMuscleGroups(response.data)
-    //             setUiLoading(false)
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(err);
-	// 		});
-    // }, [])
-
-
     const deleteExerciseHandler = (data) => {
 		authMiddleWare(props.history);
 		const authToken = localStorage.getItem('AuthToken');
@@ -211,8 +180,6 @@ const Exercise = (props) => {
     }))(MuiDialogContent);
 
     dayjs.extend(relativeTime);
-    // const { classes } = props;
-    // const { open, errors, viewOpen } = this.state;
 
     const handleClickOpen = () => {
         setExerciseId('')
@@ -288,7 +255,6 @@ const Exercise = (props) => {
     } else {
         return (
             <>
-                {console.log(availableMuscleGroups, "available muscle groups")}
                 <div className={classes.toolbar} />
 
                 <main className={classes.content}>
@@ -341,47 +307,32 @@ const Exercise = (props) => {
                                 </Grid>
                                 <Grid item xs={12}>
 
-                                <Select
-                                    multiple
-                                    displayEmpty
-                                    value={muscleGroup}
-                                    onChange={(e) => setMuscleGroup(e.target.value)}
-                                    input={<Input />}
-                                    renderValue={(selected) => {
-                                        if (selected.length === 0) {
-                                        return <em>Select muscle group</em>;
-                                        }
-
-                                        return selected.join(', ');
-                                    }}
-                                    MenuProps={MenuProps}
-                                    inputProps={{ 'aria-label': 'Without label' }}
-                                    >
-                                    <MenuItem disabled value="">
-                                        <em>Select muscle group</em>
-                                    </MenuItem>
-                                    {availableMuscleGroups.map((item) => (
-                                        <MenuItem key={item.muscleGroupId} value={item.name}>
-                                        {name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-
-
-
-                                    {/* <TextField
-                                        variant="outlined"
-                                        required
-                                        fullWidth
-                                        id="exercisMuslceGroup"
-                                        label="Exercise Muscle Group"
-                                        name="muscleGroup"
-                                        autoComplete="exerciseMuscleGroup"
-                                        helperText={errors.muscleGroup}
-                                        error={errors.muscleGroup ? true : false}
-                                        onChange={(e) => setMuscleGroup(e.target.value)}
+                                    <Select
+                                        multiple
+                                        displayEmpty
                                         value={muscleGroup}
-                                    /> */}
+                                        onChange={(e) => setMuscleGroup(e.target.value)}
+                                        input={<Input />}
+                                        renderValue={(selected) => {
+                                            if (selected.length === 0) {
+                                            return <em>Select muscle group</em>;
+                                            }
+
+                                            return selected.join(', ');
+                                        }}
+                                        MenuProps={MenuProps}
+                                        inputProps={{ 'aria-label': 'Without label' }}
+                                        >
+                                        <MenuItem disabled value="">
+                                            <em>Select muscle group</em>
+                                        </MenuItem>
+                                        {availableMuscleGroups.map((item) => (
+                                            <MenuItem key={item.muscleGroupId} value={item.name}>
+                                            {name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+
                                 </Grid>
                             </Grid>
                         </form>
