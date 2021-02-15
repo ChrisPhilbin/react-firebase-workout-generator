@@ -107,35 +107,53 @@ const Exercise = (props) => {
     let [viewOpen, setViewOpen]                           = useState(false)
     let [availableMuscleGroups, setAvailableMuscleGroups] = useState([])
 
-    useEffect(() => {
-        authMiddleWare(props.history);
-		const authToken = localStorage.getItem('AuthToken');
-		axios.defaults.headers.common = { Authorization: `${authToken}` };
-		axios
-			.get('/exercises')
-			.then((response) => {
-                setExercises(response.data)
-                setUiLoading(false)
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-    }, [])
 
     useEffect(() => {
-        authMiddleWare(props.history);
-		const authToken = localStorage.getItem('AuthToken');
-		axios.defaults.headers.common = { Authorization: `${authToken}` };
-		axios
-			.get('/muscleGroups')
-			.then((response) => {
-                setAvailableMuscleGroups(response.data)
-                setUiLoading(false)
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-    }, [])
+        const fetchData = async () => {
+          const respExercises = await axios(
+            `/exercises`
+          );
+          const respMuscleGroups = await axios(
+            `/muscleGroups`
+          );
+    
+          setExercises(respExercises.data)
+          setMuscleGroup(respMuscleGroups.data)
+          setUiLoading(false)
+        };
+    
+        fetchData();
+      }, []);
+
+    // useEffect(() => {
+    //     authMiddleWare(props.history);
+	// 	const authToken = localStorage.getItem('AuthToken');
+	// 	axios.defaults.headers.common = { Authorization: `${authToken}` };
+	// 	axios
+	// 		.get('/exercises')
+	// 		.then((response) => {
+    //             setExercises(response.data)
+    //             setUiLoading(false)
+	// 		})
+	// 		.catch((err) => {
+	// 			console.log(err);
+	// 		});
+    // }, [])
+
+    // useEffect(() => {
+    //     authMiddleWare(props.history);
+	// 	const authToken = localStorage.getItem('AuthToken');
+	// 	axios.defaults.headers.common = { Authorization: `${authToken}` };
+	// 	axios
+	// 		.get('/muscleGroups')
+	// 		.then((response) => {
+    //             setAvailableMuscleGroups(response.data)
+    //             setUiLoading(false)
+	// 		})
+	// 		.catch((err) => {
+	// 			console.log(err);
+	// 		});
+    // }, [])
 
 
     const deleteExerciseHandler = (data) => {
