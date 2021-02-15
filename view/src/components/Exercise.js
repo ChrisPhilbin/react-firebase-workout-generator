@@ -255,8 +255,6 @@ const Exercise = (props) => {
     } else {
         return (
             <>
-                <div className={classes.toolbar} />
-
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
 
@@ -269,6 +267,7 @@ const Exercise = (props) => {
                         <AddCircleIcon style={{ fontSize: 60 }} />
                     </IconButton>
                     <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+                    <div className={classes.toolbar} />
                         <AppBar className={classes.appBar}>
                             <Toolbar>
                                 <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
@@ -308,7 +307,6 @@ const Exercise = (props) => {
                                 <Grid item xs={12}>
 
                                     <Select
-                                        multiple
                                         displayEmpty
                                         value={muscleGroup}
                                         onChange={(e) => setMuscleGroup(e.target.value)}
@@ -318,7 +316,7 @@ const Exercise = (props) => {
                                             return <em>Select muscle group</em>;
                                             }
 
-                                            return selected.join(', ');
+                                            return selected;
                                         }}
                                         MenuProps={MenuProps}
                                         inputProps={{ 'aria-label': 'Without label' }}
@@ -328,7 +326,7 @@ const Exercise = (props) => {
                                         </MenuItem>
                                         {availableMuscleGroups.map((item) => (
                                             <MenuItem key={item.muscleGroupId} value={item.name}>
-                                            {name}
+                                            {item.name}
                                             </MenuItem>
                                         ))}
                                     </Select>
