@@ -109,6 +109,11 @@ const Exercise = (props) => {
 
 
     useEffect(() => {
+
+        authMiddleWare(props.history);
+        const authToken = localStorage.getItem('AuthToken');
+        axios.defaults.headers.common = { Authorization: `${authToken}` };
+
         const fetchData = async () => {
           const respExercises = await axios(
             `/exercises`
@@ -118,7 +123,7 @@ const Exercise = (props) => {
           );
     
           setExercises(respExercises.data)
-          setMuscleGroup(respMuscleGroups.data)
+          setAvailableMuscleGroups(respMuscleGroups.data)
           setUiLoading(false)
         };
     
@@ -283,6 +288,7 @@ const Exercise = (props) => {
     } else {
         return (
             <>
+                {console.log(availableMuscleGroups, "available muscle groups")}
                 <div className={classes.toolbar} />
 
                 <main className={classes.content}>
