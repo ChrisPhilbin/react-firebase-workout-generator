@@ -48,7 +48,7 @@ const Workout = (props) => {
     let [exerciseRange, setExerciseRange] = useState([8, 15])
     let [repRange, setRepRange]           = useState([8, 12])
     let [exercises, setExercises]         = useState([])
-    let [selectedExercises, setSelectedExercises] = useState([])
+    let [selectedMuscleGroups, setSelectedMuscleGroups] = useState([])
     let [muscleGroups, setMuscleGroups]   = useState([])
 
     const { classes } = props
@@ -91,13 +91,15 @@ const Workout = (props) => {
     };
 
     const handleMuscleGroupChange = (event) => {
-      setSelectedExercises(event.target.value);
+      setSelectedMuscleGroups(event.target.value);
     }
 
     const generateWorkout = () => {
-      return alert("generate workout")
       let matchingExercises = []
-
+      //first need to filter all exercises from API to match only the muscleGroup(s) selected
+      //With the filtered results, need to make sure the range of requested exercises is possible
+      //If range is possible, generate a random list of exercises
+      //If range is not possible, alert the user regarding the error 
     }
 
     const handleMuscleGroupChangeMultiple = (event) => {
@@ -108,7 +110,7 @@ const Workout = (props) => {
           value.push(options[i].value);
         }
       }
-      setSelectedExercises(value);
+      setSelectedMuscleGroups(value);
     }
 
     const ITEM_HEIGHT = 48;
@@ -158,7 +160,7 @@ const Workout = (props) => {
         <Select
           multiple
           displayEmpty
-          value={selectedExercises}
+          value={selectedMuscleGroups}
           onChange={handleMuscleGroupChange}
           input={<Input />}
           renderValue={(selected) => {
@@ -185,8 +187,6 @@ const Workout = (props) => {
       <Button onClick={generateWorkout} variant="contained" color="primary">
         Generate Workout
       </Button>
-
-
       </div>
     </>
     )
