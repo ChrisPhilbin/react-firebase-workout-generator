@@ -14,6 +14,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import withStyles from '@material-ui/core/styles/withStyles';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import NotesIcon from '@material-ui/icons/Notes';
+import FiberNewIcon from '@material-ui/icons/FiberNew';
+import HistoryIcon from '@material-ui/icons/History';
 import Avatar from '@material-ui/core/Avatar';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -146,7 +148,7 @@ const Home = (props) => {
 						<ListItem button key="Workout" onClick={() => setRender("workout")}>
 							<ListItemIcon>
 								{' '}
-								<NotesIcon />{' '}
+								<FiberNewIcon />{' '}
 							</ListItemIcon>
 							<ListItemText primary="Generate Workout" />
 						</ListItem>
@@ -154,7 +156,7 @@ const Home = (props) => {
 						<ListItem button key="Previous Workouts" onClick={() => setRender("previous")}>
 							<ListItemIcon>
 								{' '}
-								<NotesIcon />{' '}
+								<HistoryIcon />{' '}
 							</ListItemIcon>
 							<ListItemText primary="Previous Workouts" />
 						</ListItem>
@@ -164,7 +166,7 @@ const Home = (props) => {
 								{' '}
 								<NotesIcon />{' '}
 							</ListItemIcon>
-							<ListItemText primary="Exercises" />
+							<ListItemText primary="List Exercises" />
 						</ListItem>
 
 						<ListItem button key="Account" onClick={() => setRender("account")}>
