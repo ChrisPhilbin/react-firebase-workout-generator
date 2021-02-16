@@ -287,52 +287,53 @@ const Exercise = (props) => {
                                 Get creative by adding unique exercises based on your available equipment and setup.
 
                                 <form className={classes.form} noValidate>
-                            <Grid container spacing={2}>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        variant="outlined"
-                                        required
-                                        id="ExerciseName"
-                                        label="Exercise Name"
-                                        name="name"
-                                        side="medium"
-                                        autoComplete="exerciseName"
-                                        helperText={errors.name}
-                                        value={name}
-                                        error={errors.name ? true : false}
-                                        onChange={(e) => setName(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                autoFocus
+                                                variant="outlined"
+                                                required
+                                                id="ExerciseName"
+                                                label="Exercise Name"
+                                                name="name"
+                                                side="medium"
+                                                autoComplete="exerciseName"
+                                                helperText={errors.name}
+                                                value={name}
+                                                error={errors.name ? true : false}
+                                                onChange={(e) => setName(e.target.value)}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
 
-                                    <Select
-                                        displayEmpty
-                                        value={muscleGroup}
-                                        onChange={(e) => setMuscleGroup(e.target.value)}
-                                        input={<Input />}
-                                        renderValue={(selected) => {
-                                            if (selected.length === 0) {
-                                            return <em>Select muscle group</em>;
-                                            }
+                                            <Select
+                                                displayEmpty
+                                                value={muscleGroup}
+                                                onChange={(e) => setMuscleGroup(e.target.value)}
+                                                input={<Input />}
+                                                renderValue={(selected) => {
+                                                    if (selected.length === 0) {
+                                                    return <em>Select muscle group</em>;
+                                                    }
 
-                                            return selected;
-                                        }}
-                                        MenuProps={MenuProps}
-                                        inputProps={{ 'aria-label': 'Without label' }}
-                                        >
-                                        <MenuItem disabled value="">
-                                            <em>Select muscle group</em>
-                                        </MenuItem>
-                                        {availableMuscleGroups.map((item) => (
-                                            <MenuItem key={item.muscleGroupId} value={item.name}>
-                                            {item.name}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
+                                                    return selected;
+                                                }}
+                                                MenuProps={MenuProps}
+                                                inputProps={{ 'aria-label': 'Without label' }}
+                                                >
+                                                <MenuItem disabled value="">
+                                                    <em>Select muscle group</em>
+                                                </MenuItem>
+                                                {availableMuscleGroups.map((item) => (
+                                                    <MenuItem key={item.muscleGroupId} value={item.name}>
+                                                    {item.name}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
 
-                                </Grid>
-                            </Grid>
-                        </form>
+                                        </Grid>
+                                    </Grid>
+                                </form>
                             </DialogContentText>
                         </DialogContent>
 
