@@ -95,11 +95,12 @@ const Workout = (props) => {
     }
 
     const generateWorkout = () => {
-      let matchingExercises = []
       //first need to filter all exercises from API to match only the muscleGroup(s) selected
       //With the filtered results, need to make sure the range of requested exercises is possible
       //If range is possible, generate a random list of exercises
-      //If range is not possible, alert the user regarding the error 
+      //If range is not possible, alert the user regarding the error
+      let matchingExercises = exercises.filter((exercise) => selectedMuscleGroups.includes(exercise.muscleGroup))
+      console.log(matchingExercises, "matching exercises")
     }
 
     const handleMuscleGroupChangeMultiple = (event) => {
