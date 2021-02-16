@@ -139,7 +139,7 @@ const Exercise = (props) => {
 		authMiddleWare(props.history);
 		const authToken = localStorage.getItem('AuthToken');
 		axios.defaults.headers.common = { Authorization: `${authToken}` };
-		let exerciseId = data.Exercise.exerciseId;
+		let exerciseId = data.exercise.exerciseId;
 		axios
 			.delete(`exercises/${exerciseId}`)
 			.then(() => {
