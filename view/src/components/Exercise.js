@@ -21,6 +21,10 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import Input from '@material-ui/core/Input';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogActions from '@material-ui/core/DialogActions';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -106,7 +110,8 @@ const Exercise = (props) => {
     let [buttonType, setButtonType]                       = useState('')
     let [viewOpen, setViewOpen]                           = useState(false)
     let [availableMuscleGroups, setAvailableMuscleGroups] = useState([])
-
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => {
 
@@ -266,28 +271,22 @@ const Exercise = (props) => {
                     >
                         <AddCircleIcon style={{ fontSize: 60 }} />
                     </IconButton>
-                    <Dialog open={open} onClose={handleClose} TransitionComponent={Transition}>
-                        <DialogTitle id="dialog-title">Create a new exercise</DialogTitle>
-                        <AppBar className={classes.appBar}>
-                            <Toolbar>
-                                <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
-                                    <CloseIcon />
-                                </IconButton>
-                                <Typography variant="h6" className={classes.title}>
-                                    {buttonType === 'Edit' ? 'Edit Exercise' : 'Create a new Exercise'}
-                                </Typography>
-                                <Button
-                                    autoFocus
-                                    color="inherit"
-                                    onClick={handleSubmit}
-                                    className={classes.submitButton}
-                                >
-                                    {buttonType === 'Edit' ? 'Save' : 'Submit'}
-                                </Button>
-                            </Toolbar>
-                        </AppBar>
 
-                        <form className={classes.form} noValidate>
+
+                    <Dialog
+                        fullScreen={fullScreen}
+                        open={open}
+                        onClose={handleClose}
+                        TransitionComponent={Transition}
+                        aria-labelledby="responsive-dialog-title"
+                    >
+                        <DialogTitle id="responsive-dialog-title">{"Create a new exercise"}</DialogTitle>
+                        
+                        <DialogContent>
+                            <DialogContentText>
+                                Get creative by adding unique exercises based on your available equipment and setup.
+
+                                <form className={classes.form} noValidate>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
                                     <TextField
@@ -334,6 +333,19 @@ const Exercise = (props) => {
                                 </Grid>
                             </Grid>
                         </form>
+                            </DialogContentText>
+                        </DialogContent>
+
+                        <DialogActions>
+                            <Button autoFocus onClick={handleSubmit} color="primary">
+                                {buttonType === 'Edit' ? 'Save' : 'Submit'}
+                            </Button>
+
+                            <Button autoFocus onClick={handleClose} color="primary">
+                                Cancel
+                            </Button>
+
+                        </DialogActions>
                     </Dialog>
 
                     <Grid container spacing={2}>
