@@ -14,6 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
+import Button from '@material-ui/core/Button'
 import axios from 'axios'
 
 import { authMiddleWare } from '../util/Auth'
@@ -47,22 +48,31 @@ const Workout = (props) => {
     let [exerciseRange, setExerciseRange] = useState([8, 15])
     let [repRange, setRepRange]           = useState([8, 12])
     let [exercises, setExercises]         = useState([])
+    let [selectedExercises, setSelectedExercises] = useState([])
+    let [muscleGroups, setMuscleGroups]   = useState([])
 
     const { classes } = props
 
-  useEffect(() => {
-    authMiddleWare(props.history);
-    const authToken = localStorage.getItem('AuthToken');
-    axios.defaults.headers.common = { Authorization: `${authToken}` };
-    axios
-      .get('/exercises')
-      .then((response) => {
-        setExercises(response.data)
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }, [])
+    useEffect(() => {
+
+      authMiddleWare(props.history);
+      const authToken = localStorage.getItem('AuthToken');
+      axios.defaults.headers.common = { Authorization: `${authToken}` };
+
+      const fetchData = async () => {
+        const respExercises = await axios(
+          `/exercises`
+        );
+        const respMuscleGroups = await axios(
+          `/muscleGroups`
+        );
+
+        setExercises(respExercises.data)
+        setMuscleGroups(respMuscleGroups.data)
+      };
+
+      fetchData();
+    }, []);
 
     const exercisetext = (value) => {
         return `Between ${exerciseRange[0]} and ${exerciseRange[1]} number of exercises`
@@ -80,19 +90,14 @@ const Workout = (props) => {
       setRepRange(newValue);
     };
 
-    const muscleGroups = [
-      'shoulders',
-      'chest',
-      'biceps',
-      'triceps',
-      'back',
-      'legs'
-    ]
-
-    let [selectedExercises, setSelectedExercises] = useState([])
-
     const handleMuscleGroupChange = (event) => {
       setSelectedExercises(event.target.value);
+    }
+
+    const generateWorkout = () => {
+      return alert("generate workout")
+      let matchingExercises = []
+
     }
 
     const handleMuscleGroupChangeMultiple = (event) => {
@@ -170,12 +175,16 @@ const Workout = (props) => {
             <em>Select muscle group(s)</em>
           </MenuItem>
           {muscleGroups.map((name) => (
-            <MenuItem key={name} value={name}>
-              {name}
+            <MenuItem key={name.muscleGroupId} value={name.name}>
+              {name.name}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
+
+      <Button onClick={generateWorkout} variant="contained" color="primary">
+        Generate Workout
+      </Button>
 
 
       </div>
