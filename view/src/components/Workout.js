@@ -17,6 +17,7 @@ import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button'
 import axios from 'axios'
 
+import ExerciseList from './ExerciseList'
 import { authMiddleWare } from '../util/Auth'
 
 const styles = (theme) => ({
@@ -50,6 +51,7 @@ const Workout = (props) => {
     let [exercises, setExercises]         = useState([])
     let [selectedMuscleGroups, setSelectedMuscleGroups] = useState([])
     let [muscleGroups, setMuscleGroups]   = useState([])
+    let [randomExercises, setRandomExercises] = useState([])
 
     const { classes } = props
 
@@ -100,6 +102,14 @@ const Workout = (props) => {
       //If range is possible, generate a random list of exercises
       //If range is not possible, alert the user regarding the error
       let matchingExercises = exercises.filter((exercise) => selectedMuscleGroups.includes(exercise.muscleGroup))
+      if (matchingExercises.length < exerciseRange[0]) {
+        return alert("It looks like you don't have enough exercises created to put together a workout!")
+      } else {
+        const shuffled = matchingExercises.sort(() => 0.5 - Math.random())
+        setRandomExercises(shuffled.slice(0, Math.floor(Math.random() * exerciseRange[1]) + exerciseRange[0]))
+        console.log(randomExercises, "random exercises")
+      }
+
       console.log(matchingExercises, "matching exercises")
     }
 
@@ -125,72 +135,78 @@ const Workout = (props) => {
       },
     }
   
-    return (
-    <>
-      <div className={classes.toolbar} />
+    if (randomExercises.length === 0) {
+      return (
+      <>
+        <div className={classes.toolbar} />
 
-      <div className={classes.root}>
-        <Typography id="range-slider" gutterBottom>
-          Select range of exercises
-        </Typography>
-        <Slider
-          value={exerciseRange}
-          min={1}
-          max={25}
-          onChange={handleExerciseChange}
-          valueLabelDisplay="auto"
-          aria-labelledby="range-slider"
-          getAriaValueText={exercisetext}
-        />
+        <div className={classes.root}>
+          <Typography id="range-slider" gutterBottom>
+            Select range of exercises
+          </Typography>
+          <Slider
+            value={exerciseRange}
+            min={1}
+            max={25}
+            onChange={handleExerciseChange}
+            valueLabelDisplay="auto"
+            aria-labelledby="range-slider"
+            getAriaValueText={exercisetext}
+          />
 
-        <Typography id="range-slider" gutterBottom>
-          Select range of reps
-        </Typography>
+          <Typography id="range-slider" gutterBottom>
+            Select range of reps
+          </Typography>
 
-        <Slider
-          value={repRange}
-          min={5}
-          max={50}
-          onChange={handleRepChange}
-          valueLabelDisplay="auto"
-          aria-labelledby="range-slider"
-          getAriaValueText={reptext}
-        />
+          <Slider
+            value={repRange}
+            min={5}
+            max={50}
+            onChange={handleRepChange}
+            valueLabelDisplay="auto"
+            aria-labelledby="range-slider"
+            getAriaValueText={reptext}
+          />
 
-        <FormControl className={clsx(classes.formControl, classes.noLabel)}>
-        <Select
-          multiple
-          displayEmpty
-          value={selectedMuscleGroups}
-          onChange={handleMuscleGroupChange}
-          input={<Input />}
-          renderValue={(selected) => {
-            if (selected.length === 0) {
-              return <em>Select muscle group(s)</em>;
-            }
+          <FormControl className={clsx(classes.formControl, classes.noLabel)}>
+          <Select
+            multiple
+            displayEmpty
+            value={selectedMuscleGroups}
+            onChange={handleMuscleGroupChange}
+            input={<Input />}
+            renderValue={(selected) => {
+              if (selected.length === 0) {
+                return <em>Select muscle group(s)</em>;
+              }
 
-            return selected.join(', ');
-          }}
-          MenuProps={MenuProps}
-          inputProps={{ 'aria-label': 'Without label' }}
-        >
-          <MenuItem disabled value="">
-            <em>Select muscle group(s)</em>
-          </MenuItem>
-          {muscleGroups.map((name) => (
-            <MenuItem key={name.muscleGroupId} value={name.name}>
-              {name.name}
+              return selected.join(', ');
+            }}
+            MenuProps={MenuProps}
+            inputProps={{ 'aria-label': 'Without label' }}
+          >
+            <MenuItem disabled value="">
+              <em>Select muscle group(s)</em>
             </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+            {muscleGroups.map((name) => (
+              <MenuItem key={name.muscleGroupId} value={name.name}>
+                {name.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-      <Button onClick={generateWorkout} variant="contained" color="primary">
-        Generate Workout
-      </Button>
-      </div>
-    </>
-    )
+        <Button onClick={generateWorkout} variant="contained" color="primary">
+          Generate Workout
+        </Button>
+        </div>
+      </>
+      )
+    } else {
+      return(
+        <ExerciseList exercises={randomExercises} />
+      )
+    }
 }
 
 export default withStyles(styles)(Workout)
