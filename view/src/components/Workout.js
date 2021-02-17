@@ -51,7 +51,7 @@ const Workout = (props) => {
     let [exercises, setExercises]         = useState([])
     let [selectedMuscleGroups, setSelectedMuscleGroups] = useState([])
     let [muscleGroups, setMuscleGroups]   = useState([])
-    let [randomExercises, setRandomExercises] = useState([])
+    let [randomExercises, setRandomExercises] = useState(null)
 
     const { classes } = props
 
@@ -135,7 +135,7 @@ const Workout = (props) => {
       },
     }
   
-    if (randomExercises.length === 0) {
+    if (!randomExercises) {
       return (
       <>
         <div className={classes.toolbar} />
