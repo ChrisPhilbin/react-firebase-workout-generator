@@ -113,17 +113,6 @@ const Workout = (props) => {
       console.log(matchingExercises, "matching exercises")
     }
 
-    const handleMuscleGroupChangeMultiple = (event) => {
-      const { options } = event.target;
-      const value = [];
-      for (let i = 0, l = options.length; i < l; i += 1) {
-        if (options[i].selected) {
-          value.push(options[i].value);
-        }
-      }
-      setSelectedMuscleGroups(value);
-    }
-
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
     const MenuProps = {
