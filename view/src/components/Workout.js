@@ -42,6 +42,7 @@ const Workout = (props) => {
 
     let [exerciseRange, setExerciseRange] = useState([8, 15])
     let [repRange, setRepRange]           = useState([8, 12])
+    let [setRange, setSetRange]           = useState([3, 6])
     let [exercises, setExercises]         = useState([])
     let [selectedMuscleGroups, setSelectedMuscleGroups] = useState([])
     let [muscleGroups, setMuscleGroups]   = useState([])
@@ -82,9 +83,17 @@ const Workout = (props) => {
       return `Between ${repRange[0]} and ${repRange[1]} number of reps`
     }      
 
+    const setText = () => {
+      return `Between ${setRange[0]} and ${setRange[1]} number of sets`
+    }
+
     const handleRepChange = (event, newValue) => {
       setRepRange(newValue);
     };
+
+    const handleSetChange = (event, newValue) => {
+      setSetRange(newValue)
+    }
 
     const handleMuscleGroupChange = (event) => {
       setSelectedMuscleGroups(event.target.value);
@@ -131,6 +140,20 @@ const Workout = (props) => {
             valueLabelDisplay="auto"
             aria-labelledby="range-slider"
             getAriaValueText={exercisetext}
+          />
+
+          <Typography id="range-slider" gutterBottom>
+            Select range of sets
+          </Typography>
+
+          <Slider
+            value={setRange}
+            min={1}
+            max={15}
+            onChange={handleSetChange}
+            valueLabelDisplay="auto"
+            aria-labelledby="range-slider"
+            getAriaValueText={setText}
           />
 
           <Typography id="range-slider" gutterBottom>
@@ -183,7 +206,11 @@ const Workout = (props) => {
       )
     } else {
       return(
-        <ExerciseList exercises={randomExercises} />
+        <ExerciseList
+          exercises={randomExercises}
+          reps={repRange}
+          sets={setRange}
+        />
       )
     }
 }
