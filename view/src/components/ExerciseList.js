@@ -19,7 +19,12 @@ const useStyles = makeStyles((theme) => ({
 const ExerciseList = (props) => {
 
     const exercises = props.exercises
-    const classes = useStyles();
+    const sets      = props.sets
+    const reps      = props.reps
+    const classes   = useStyles();
+
+    console.log(sets, "range of sets provided")
+    console.log(reps, "range of reps provided")
 
     return(
         <>
@@ -35,7 +40,11 @@ const ExerciseList = (props) => {
                 >
                     {exercises.map((exercise) => (
                         <Grid item xs={12}>
-                            <Paper className={classes.paper}>{exercise.name}</Paper>
+                            <Paper className={classes.paper}>
+                                {exercise.name}<br />
+                                Sets: {Math.floor(Math.random() * (sets[1] - sets[0] + 1) + sets[0])}<br />
+                                Reps: {Math.floor(Math.random() * (reps[1] - reps[0] + 1) + reps[0])}
+                            </Paper>
                         </Grid>
                     ))}
                 </Grid>
