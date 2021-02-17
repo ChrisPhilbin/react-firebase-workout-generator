@@ -3,17 +3,11 @@ import React, { useEffect, useState } from 'react'
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider'
 import withStyles from '@material-ui/core/styles/withStyles';
-
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
-import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button'
 import axios from 'axios'
 
@@ -97,10 +91,6 @@ const Workout = (props) => {
     }
 
     const generateWorkout = () => {
-      //first need to filter all exercises from API to match only the muscleGroup(s) selected
-      //With the filtered results, need to make sure the range of requested exercises is possible
-      //If range is possible, generate a random list of exercises
-      //If range is not possible, alert the user regarding the error
       let matchingExercises = exercises.filter((exercise) => selectedMuscleGroups.includes(exercise.muscleGroup))
       if (matchingExercises.length < exerciseRange[0]) {
         return alert("It looks like you don't have enough exercises created to put together a workout!")
