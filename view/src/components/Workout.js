@@ -19,7 +19,8 @@ const styles = (theme) => ({
     toolbar: theme.mixins.toolbar,
 
     root: {
-      width: 300
+      width: 800,
+      padding: 30,
     },
     formControl: {
       margin: theme.spacing(1),
@@ -129,7 +130,7 @@ const Workout = (props) => {
         <div className={classes.toolbar} />
 
         <div className={classes.root}>
-          <Typography id="range-slider" gutterBottom>
+          <Typography align="center" variant="h4" id="range-slider" gutterBottom>
             Select range of exercises
           </Typography>
           <Slider
@@ -142,7 +143,7 @@ const Workout = (props) => {
             getAriaValueText={exercisetext}
           />
 
-          <Typography id="range-slider" gutterBottom>
+          <Typography align="center" variant="h4" id="range-slider" gutterBottom>
             Select range of sets
           </Typography>
 
@@ -156,7 +157,7 @@ const Workout = (props) => {
             getAriaValueText={setText}
           />
 
-          <Typography id="range-slider" gutterBottom>
+          <Typography align="center" variant="h4" id="range-slider" gutterBottom>
             Select range of reps
           </Typography>
 
