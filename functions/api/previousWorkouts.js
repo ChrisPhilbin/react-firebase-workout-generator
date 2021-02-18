@@ -9,7 +9,7 @@ exports.getAllPreviousWorkouts = (request, response) => {
 		.then((data) => {
 			let previousWorkouts = [];
 			data.forEach((workout) => {
-				exercises.push({
+				previousWorkouts.push({
                     workoutId: workout.id,
                     exercises: workout.data().exercises,
 					createdAt: workout.data().createdAt,
