@@ -38,9 +38,11 @@ const {
 app.get('/muscleGroups', getAllMuscleGroups)
 
 const {
-    getAllPreviousWorkouts
+    getAllPreviousWorkouts,
+    getOnePreviousWorkout
 } = require('./api/previousWorkouts')
 
 app.get('/previousWorkouts', auth, getAllPreviousWorkouts)
+app.get('/previousWorkouts/:previousWorkoutId', auth, getOnePreviousWorkout)
 
 exports.api = functions.https.onRequest(app);

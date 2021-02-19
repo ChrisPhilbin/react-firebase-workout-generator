@@ -22,3 +22,27 @@ exports.getAllPreviousWorkouts = (request, response) => {
 			return response.status(500).json({ error: err.code});
 		});
 };
+
+exports.getOnePreviousWorkout = (request, response) => {
+	db
+        .doc(`/previousWorkouts/${request.params.previousWorkoutId}`)
+		.get()
+		.then((doc) => {
+			if (!doc.exists) {
+				return response.status(404).json(
+                    { 
+                        error: 'Previous Workout not found' 
+                    });
+            }
+            if(doc.data().username !== request.user.username){
+                return response.status(403).json({error:"UnAuthorized"})
+            }
+			previousWorkoutData = doc.data();
+			previousWorkoutData.previousWorkoutId = doc.id;
+			return response.json(previousWorkoutData);
+		})
+		.catch((err) => {
+			console.error(err);
+			return response.status(500).json({ error: error.code });
+		});
+};
