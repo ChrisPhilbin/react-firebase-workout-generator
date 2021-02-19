@@ -48,9 +48,14 @@ exports.getOnePreviousWorkout = (request, response) => {
 };
 
 exports.createPreviousWorkout = (request, response) => {
-	if (request.body.exercises.trim() === '') {
+	
+	const isEmpty = (obj) => {
+		return Object.keys(obj).length === 0
+	}
+
+	if (isEmpty(request.body.exercises)) {
 		return response.status(400).json({ exercises: 'Must not be empty' });
-    }
+	}
         
     const newPreviousWorkout = {
         username: request.user.username,
