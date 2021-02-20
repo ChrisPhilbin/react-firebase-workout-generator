@@ -49,11 +49,15 @@ exports.getOnePreviousWorkout = (request, response) => {
 
 exports.createPreviousWorkout = (request, response) => {
 	
-	const isEmpty = (obj) => {
-		return Object.keys(obj).length === 0
-	}
+	// const isEmpty = (obj) => {
+	// 	return Object.keys(obj).length === 0
+	// }
 
-	if (isEmpty(request.body.exercises)) {
+	// if (isEmpty(request.body.exercises)) {
+	// 	return response.status(400).json({ exercises: 'Must not be empty' });
+	// }
+
+	if (request.body.exercises.length === 0) {
 		return response.status(400).json({ exercises: 'Must not be empty' });
 	}
         
