@@ -4,6 +4,8 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper';
 
+import { authMiddleWare } from '../util/Auth'
+
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -34,7 +36,29 @@ const ExerciseList = (props) => {
     })
 
     const saveWorkout = (exerciseSetsReps) => {
-        
+        authMiddleWare(props.history);
+        const savedExercises = {
+            exercises: exerciseSetsReps
+        };
+
+        let options = {
+            url: '/previousWorkouts',
+            method: 'post',
+            data: savedExercises
+        }
+
+        const authToken = localStorage.getItem('AuthToken');
+        axios.defaults.headers.common = { Authorization: `${authToken}` };
+        axios(options)
+            .then(() => {
+                setOpen(false)
+                window.location.reload();
+            })
+            .catch((error) => {
+                setOpen(true)
+                setErrors(error.response.data)
+                console.log(error);
+            })
     }
 
     return(
