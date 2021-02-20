@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper';
+import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
 
 import { authMiddleWare } from '../util/Auth'
+import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,11 +36,14 @@ const ExerciseList = (props) => {
         exerciseSetsReps.push(exerciseObject)
     })
 
-    const saveWorkout = (exerciseSetsReps) => {
+    const saveWorkout = (event) => {
+        event.preventDefault()
         authMiddleWare(props.history);
-        const savedExercises = {
+        let savedExercises = {
             exercises: exerciseSetsReps
         };
+
+        console.log(savedExercises, "SAVED EXERCISES")
 
         let options = {
             url: '/previousWorkouts',
@@ -51,12 +55,9 @@ const ExerciseList = (props) => {
         axios.defaults.headers.common = { Authorization: `${authToken}` };
         axios(options)
             .then(() => {
-                setOpen(false)
                 window.location.reload();
             })
             .catch((error) => {
-                setOpen(true)
-                setErrors(error.response.data)
                 console.log(error);
             })
     }
@@ -84,6 +85,7 @@ const ExerciseList = (props) => {
                         </Grid>
                     ))}
                 </Grid>
+                <Button onClick={saveWorkout}>Finish & Save</Button>
             </div>
         </>
     )
