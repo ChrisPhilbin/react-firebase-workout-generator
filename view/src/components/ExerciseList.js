@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid'
@@ -23,8 +23,19 @@ const ExerciseList = (props) => {
     const reps      = props.reps
     const classes   = useStyles();
 
-    console.log(sets, "range of sets provided")
-    console.log(reps, "range of reps provided")
+    let exerciseSetsReps = []
+
+    exercises.map((exericse) => {
+        let exerciseObject = {}
+        exerciseObject.name = exericse.name
+        exerciseObject.sets = Math.floor(Math.random() * (sets[1] - sets[0] + 1) + sets[0])
+        exerciseObject.reps = Math.floor(Math.random() * (reps[1] - reps[0] + 1) + reps[0])
+        exerciseSetsReps.push(exerciseObject)
+    })
+
+    const saveWorkout = (exerciseSetsReps) => {
+        
+    }
 
     return(
         <>
@@ -38,12 +49,13 @@ const ExerciseList = (props) => {
                     alignItems="stretch"
                     spacing="3"
                 >
-                    {exercises.map((exercise) => (
+                    {console.log(exerciseSetsReps, "Array of exercises, sets, and reps")}
+                    {exerciseSetsReps.map((exercise) => (
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
                                 {exercise.name}<br />
-                                Sets: {Math.floor(Math.random() * (sets[1] - sets[0] + 1) + sets[0])}<br />
-                                Reps: {Math.floor(Math.random() * (reps[1] - reps[0] + 1) + reps[0])}
+                                Sets: {exercise.sets}<br />
+                                Reps: {exercise.reps}
                             </Paper>
                         </Grid>
                     ))}
