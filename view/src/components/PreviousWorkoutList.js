@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
-import withStyles from '@material-ui/core/styles/withStyles';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Paper from '@material-ui/core/Paper'
+import withStyles from '@material-ui/core/styles/withStyles'
 
 import { authMiddleWare } from '../util/Auth'
 
@@ -10,6 +11,10 @@ import axios from 'axios'
 
 const styles = ((theme) => ({
   toolbar: theme.mixins.toolbar,
+
+  root: {
+    width: '500'
+  },
 
   uiProgess: {
 		position: 'fixed',
@@ -63,18 +68,20 @@ const PreviousWorkoutList = (props) => {
         <>
           <div className={classes.toolbar} />
 
-          <div>
+          <div className={classes.root}>
               {previousWorkous.map((workout) => (
-                <div key={workout.workoutId}>
-                  {moment(workout.createdAt).format('LL')}
-                  {workout.exercises.map((exercise) =>(
-                    <div>
-                      {exercise.name}<br />
-                      {exercise.sets}<br />
-                      {exercise.reps}
-                    </div>
-                  ))}    
-                </div>
+                <Paper elevation={3}>
+                  <div key={workout.workoutId}>
+                    {moment(workout.createdAt).format('LL')}
+                    {workout.exercises.map((exercise) =>(
+                      <div>
+                        {exercise.name}<br />
+                        {exercise.sets}<br />
+                        {exercise.reps}
+                      </div>
+                    ))}    
+                  </div>
+                </Paper>
               ))}
           </div>
         </>

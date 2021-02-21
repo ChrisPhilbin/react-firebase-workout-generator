@@ -40,11 +40,13 @@ app.get('/muscleGroups', getAllMuscleGroups)
 const {
     getAllPreviousWorkouts,
     getOnePreviousWorkout,
-    createPreviousWorkout
+    createPreviousWorkout,
+    deletePreviousWorkout
 } = require('./api/previousWorkouts')
 
 app.get('/previousWorkouts', auth, getAllPreviousWorkouts)
 app.get('/previousWorkouts/:previousWorkoutId', auth, getOnePreviousWorkout)
 app.post('/previousWorkouts', auth, createPreviousWorkout)
+app.delete('/previousWorkouts/:previousWorkoutId', auth, deletePreviousWorkout)
 
 exports.api = functions.https.onRequest(app);
