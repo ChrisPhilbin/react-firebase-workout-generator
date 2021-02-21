@@ -1,11 +1,29 @@
 import React, { useEffect, useState } from 'react'
+
 import withStyles from '@material-ui/core/styles/withStyles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { authMiddleWare } from '../util/Auth'
+
 import moment from 'moment'
 import axios from 'axios'
 
 const styles = ((theme) => ({
   toolbar: theme.mixins.toolbar,
+
+  uiProgess: {
+		position: 'fixed',
+		zIndex: '1000',
+		height: '31px',
+		width: '31px',
+		left: '50%',
+		top: '35%'
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+  
   })
 )
 
@@ -35,9 +53,10 @@ const PreviousWorkoutList = (props) => {
 
     if (uiLoading === true) {
       return(
-        <div>
-          Loading... Please wait
-        </div>
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          {uiLoading && <CircularProgress size={150} className={classes.uiProgess} />}
+        </main>
       )
     } else {
       return(
