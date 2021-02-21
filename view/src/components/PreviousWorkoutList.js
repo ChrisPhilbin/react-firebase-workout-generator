@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { authMiddleWare } from '../util/Auth'
+import axios from 'axios'
 
 const PreviousWorkoutList = (props) => {
 

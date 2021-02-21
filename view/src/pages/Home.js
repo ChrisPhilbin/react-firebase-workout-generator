@@ -23,7 +23,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Account from '../components/Account'
 import Exercise from '../components/Exercise'
 import Workout from '../components/Workout'
-import PreviousWorkout from '../components/PreviousWorkout';
+import PreviousWorkoutList from '../components/PreviousWorkoutList';
 
 import { authMiddleWare } from '../util/Auth'
 
@@ -193,7 +193,7 @@ const Home = (props) => {
 							'exercise': <Exercise />,
 							'workout': <Workout />,
 							'account': <Account />,
-							'previous': <PreviousWorkout />
+							'previous': <PreviousWorkoutList />
 						}[render] || <Workout />
 					}
 				</div>
