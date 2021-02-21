@@ -14,6 +14,7 @@ const PreviousWorkoutList = (props) => {
     let { classes } = props
 
     let [previousWorkous, setPreviousWorkouts] = useState([])
+    let [uiLoading, setUiLoading]              = useState(true)
 
     useEffect(() => {
 
@@ -26,21 +27,39 @@ const PreviousWorkoutList = (props) => {
             `/previousWorkouts`
           );
           setPreviousWorkouts(respPreviousWorkouts.data)
+          setUiLoading(false)
         };
     
         fetchData();
       }, []);
 
-    return(
-      <>
-        <div className={classes.toolbar} />
-
+    if (uiLoading === true) {
+      return(
         <div>
-            {console.log(previousWorkous, "Previous workouts")}
-            Previous Workout List Component
+          Loading... Please wait
         </div>
-      </>
-    )
-}
+      )
+    } else {
+      return(
+        <>
+          <div className={classes.toolbar} />
 
+          <div>
+              {previousWorkous.map((workout) => (
+                <div key={workout.workoutId}>
+                  {moment(workout.createdAt).format('LL')}
+                  {workout.exercises.map((exercise) =>(
+                    <div>
+                      {exercise.name}<br />
+                      {exercise.sets}<br />
+                      {exercise.reps}
+                    </div>
+                  ))}    
+                </div>
+              ))}
+          </div>
+        </>
+      )
+    }
+}
 export default withStyles(styles)(PreviousWorkoutList)
