@@ -85,7 +85,7 @@ const ExerciseList = (props) => {
                         </Grid>
                     ))}
                 </Grid>
-                <Button onClick={saveWorkout}>Finish & Save</Button>
+                <Button onClick={saveWorkout} variant="contained" color="primary">Finish & Save</Button>
             </div>
         </>
     )
