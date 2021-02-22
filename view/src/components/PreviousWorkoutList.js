@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
+import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import DeleteIcon from '@material-ui/icons/Delete';
 import Paper from '@material-ui/core/Paper'
 import withStyles from '@material-ui/core/styles/withStyles'
 
@@ -56,6 +58,23 @@ const PreviousWorkoutList = (props) => {
         fetchData();
       }, []);
 
+      const handleDelete = (data) => {
+        console.log(data, "data object passed in to delete function")
+        authMiddleWare(props.history);
+        const authToken = localStorage.getItem('AuthToken');
+        axios.defaults.headers.common = { Authorization: `${authToken}` };
+        let previousWorkoutId = data.workoutId;
+        console.log(previousWorkoutId, "previous ID")
+        axios
+          .delete(`previousWorkouts/${previousWorkoutId}`)
+          .then(() => {
+            window.location.reload();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+
     if (uiLoading === true) {
       return(
         <main className={classes.content}>
@@ -72,7 +91,18 @@ const PreviousWorkoutList = (props) => {
               {previousWorkous.map((workout) => (
                 <Paper elevation={3}>
                   <div key={workout.workoutId}>
+                    {console.log(workout, "Single workout object from array")}
                     {moment(workout.createdAt).format('LL')}
+                    
+                    <Button
+                    variant="contained"
+                    color="secondary"
+                    className={classes.button}
+                    startIcon={<DeleteIcon />}
+                    onClick={() => handleDelete(workout)}
+                    >
+                      Delete
+                    </Button>
                     {workout.exercises.map((exercise) =>(
                       <div>
                         {exercise.name}<br />
