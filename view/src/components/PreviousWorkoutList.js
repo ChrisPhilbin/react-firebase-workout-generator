@@ -66,7 +66,7 @@ const PreviousWorkoutList = (props) => {
         let previousWorkoutId = data.workoutId;
         console.log(previousWorkoutId, "previous ID")
         axios
-          .delete(`previousWorkouts/${previousWorkoutId}`)
+          .delete(`/previousWorkouts/${previousWorkoutId}`)
           .then(() => {
             window.location.reload();
           })
