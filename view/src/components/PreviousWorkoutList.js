@@ -59,22 +59,21 @@ const PreviousWorkoutList = (props) => {
       }, []);
 
       const handleDelete = (data) => {
-        console.log(data, "data object passed in to delete function")
-        authMiddleWare(props.history);
-        const authToken = localStorage.getItem('AuthToken');
-        axios.defaults.headers.common = { Authorization: `${authToken}` };
-        let previousWorkoutId = data.workoutId;
-        console.log(previousWorkoutId, "previous ID")
-        axios
-          .delete(`/previousWorkouts/${previousWorkoutId}`)
-          .then(() => {
-            window.location.reload();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        if (window.confirm("Are you sure you want to delete this workout?")) {
+          authMiddleWare(props.history);
+          const authToken = localStorage.getItem('AuthToken');
+          axios.defaults.headers.common = { Authorization: `${authToken}` };
+          let previousWorkoutId = data.workoutId;
+          axios
+            .delete(`/previousWorkouts/${previousWorkoutId}`)
+            .then(() => {
+              props.history.push('/previousWorkouts')
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
       }
-
     if (uiLoading === true) {
       return(
         <main className={classes.content}>
