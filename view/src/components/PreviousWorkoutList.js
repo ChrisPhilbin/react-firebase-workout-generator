@@ -43,37 +43,38 @@ const PreviousWorkoutList = (props) => {
 
     useEffect(() => {
 
+      authMiddleWare(props.history);
+      const authToken = localStorage.getItem('AuthToken');
+      axios.defaults.headers.common = { Authorization: `${authToken}` };
+
+      const fetchData = async () => {
+        const respPreviousWorkouts = await axios(
+          `/previousWorkouts`
+        );
+        setPreviousWorkouts(respPreviousWorkouts.data)
+        setUiLoading(false)
+      };
+  
+      fetchData();
+    }, []);
+
+    const handleDelete = (data) => {
+      if (window.confirm("Are you sure you want to delete this workout?")) {
         authMiddleWare(props.history);
         const authToken = localStorage.getItem('AuthToken');
         axios.defaults.headers.common = { Authorization: `${authToken}` };
-
-        const fetchData = async () => {
-          const respPreviousWorkouts = await axios(
-            `/previousWorkouts`
-          );
-          setPreviousWorkouts(respPreviousWorkouts.data)
-          setUiLoading(false)
-        };
-    
-        fetchData();
-      }, []);
-
-      const handleDelete = (data) => {
-        if (window.confirm("Are you sure you want to delete this workout?")) {
-          authMiddleWare(props.history);
-          const authToken = localStorage.getItem('AuthToken');
-          axios.defaults.headers.common = { Authorization: `${authToken}` };
-          let previousWorkoutId = data.workoutId;
-          axios
-            .delete(`/previousWorkouts/${previousWorkoutId}`)
-            .then(() => {
-              props.history.push('/previousWorkouts')
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
+        let previousWorkoutId = data.workoutId;
+        axios
+          .delete(`/previousWorkouts/${previousWorkoutId}`)
+          .then(() => {
+            window.location.reload();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
+    }
+
     if (uiLoading === true) {
       return(
         <main className={classes.content}>
@@ -81,6 +82,16 @@ const PreviousWorkoutList = (props) => {
           {uiLoading && <CircularProgress size={150} className={classes.uiProgess} />}
         </main>
       )
+    // } else if (previousWorkous.length === 0) {
+    //   return(
+    //     <React.Fragment>
+    //       <div className={classes.toolbar} />
+
+    //       <div>
+    //         It looks like you don't have any previous workouts stored yet
+    //       </div>
+    //     </React.Fragment>
+    //   )
     } else {
       return(
         <>
@@ -90,9 +101,7 @@ const PreviousWorkoutList = (props) => {
               {previousWorkous.map((workout) => (
                 <Paper elevation={3}>
                   <div key={workout.workoutId}>
-                    {console.log(workout, "Single workout object from array")}
                     {moment(workout.createdAt).format('LL')}
-                    
                     <Button
                     variant="contained"
                     color="secondary"

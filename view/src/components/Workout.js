@@ -170,38 +170,43 @@ const Workout = (props) => {
             aria-labelledby="range-slider"
             getAriaValueText={reptext}
           />
+          <div>
+            <FormControl className={clsx(classes.formControl, classes.noLabel)}>
+            <Select
+              multiple
+              displayEmpty
+              value={selectedMuscleGroups}
+              onChange={handleMuscleGroupChange}
+              input={<Input />}
+              renderValue={(selected) => {
+                if (selected.length === 0) {
+                  return <em>Select muscle group(s)</em>;
+                }
 
-          <FormControl className={clsx(classes.formControl, classes.noLabel)}>
-          <Select
-            multiple
-            displayEmpty
-            value={selectedMuscleGroups}
-            onChange={handleMuscleGroupChange}
-            input={<Input />}
-            renderValue={(selected) => {
-              if (selected.length === 0) {
-                return <em>Select muscle group(s)</em>;
-              }
-
-              return selected.join(', ');
-            }}
-            MenuProps={MenuProps}
-            inputProps={{ 'aria-label': 'Without label' }}
-          >
-            <MenuItem disabled value="">
-              <em>Select muscle group(s)</em>
-            </MenuItem>
-            {muscleGroups.map((name) => (
-              <MenuItem key={name.muscleGroupId} value={name.name}>
-                {name.name}
+                return selected.join(', ');
+              }}
+              MenuProps={MenuProps}
+              inputProps={{ 'aria-label': 'Without label' }}
+            >
+              <MenuItem disabled value="">
+                <em>Select muscle group(s)</em>
               </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+              {muscleGroups.map((name) => (
+                <MenuItem key={name.muscleGroupId} value={name.name}>
+                  {name.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
 
-        <Button onClick={generateWorkout} variant="contained" color="primary">
-          Generate Workout
-        </Button>
+        <div>
+          <FormControl className={classes.formControl, classes.noLabel}>
+            <Button onClick={generateWorkout} variant="contained" color="primary">
+              Generate Workout
+            </Button>
+          </FormControl>
+        </div>
         </div>
       </>
       )
