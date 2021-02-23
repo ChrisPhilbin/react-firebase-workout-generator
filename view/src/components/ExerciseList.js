@@ -10,6 +10,8 @@ import axios from 'axios'
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
+      width: 500,
+      padding: 20,
     },
     paper: {
       padding: theme.spacing(2),
@@ -21,10 +23,11 @@ const useStyles = makeStyles((theme) => ({
 
 const ExerciseList = (props) => {
 
-    const exercises = props.exercises
-    const sets      = props.sets
-    const reps      = props.reps
-    const classes   = useStyles();
+    const exercises    = props.exercises
+    const sets         = props.sets
+    const reps         = props.reps
+    const muscleGroups = props.muscleGroups
+    const classes      = useStyles();
 
     let exerciseSetsReps = []
 
@@ -40,10 +43,9 @@ const ExerciseList = (props) => {
         event.preventDefault()
         authMiddleWare(props.history);
         let savedExercises = {
-            exercises: exerciseSetsReps
+            exercises:    exerciseSetsReps,
+            muscleGroups: muscleGroups
         };
-
-        console.log(savedExercises, "SAVED EXERCISES")
 
         let options = {
             url: '/previousWorkouts',
@@ -74,7 +76,6 @@ const ExerciseList = (props) => {
                     alignItems="stretch"
                     spacing="3"
                 >
-                    {console.log(exerciseSetsReps, "Array of exercises, sets, and reps")}
                     {exerciseSetsReps.map((exercise) => (
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>

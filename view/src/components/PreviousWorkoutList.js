@@ -5,6 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import DeleteIcon from '@material-ui/icons/Delete';
 import ErrorIcon from '@material-ui/icons/Error';
 import Paper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
 
 import { authMiddleWare } from '../util/Auth'
@@ -92,8 +93,11 @@ const PreviousWorkoutList = (props) => {
     } else if (previousWorkous.length === 0) {
       return(
         <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <ErrorIcon className={classes.errorIcon} />
+          <div className={classes.toolbar} />       
+            <ErrorIcon className={classes.errorIcon} />
+            <Typography variant="h6" noWrap>
+                Looks like you don't have any saved workouts...
+            </Typography>
         </main>
       )
     } else {

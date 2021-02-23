@@ -107,10 +107,7 @@ const Workout = (props) => {
       } else {
         const shuffled = matchingExercises.sort(() => 0.5 - Math.random())
         setRandomExercises(shuffled.slice(0, Math.floor(Math.random() * exerciseRange[1]) + exerciseRange[0]))
-        console.log(randomExercises, "random exercises")
       }
-
-      console.log(matchingExercises, "matching exercises")
     }
 
     const ITEM_HEIGHT = 48;
@@ -216,6 +213,7 @@ const Workout = (props) => {
           exercises={randomExercises}
           reps={repRange}
           sets={setRange}
+          muscleGroups={selectedMuscleGroups}
         />
       )
     }
