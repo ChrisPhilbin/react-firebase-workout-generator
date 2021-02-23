@@ -56,6 +56,7 @@ exports.createPreviousWorkout = (request, response) => {
     const newPreviousWorkout = {
         username: request.user.username,
         exercises: request.body.exercises,
+        muscleGroups: request.body.muscleGroups,
         createdAt: new Date().toISOString()
     }
     db
