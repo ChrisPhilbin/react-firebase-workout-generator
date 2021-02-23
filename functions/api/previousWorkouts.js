@@ -10,9 +10,10 @@ exports.getAllPreviousWorkouts = (request, response) => {
 			let previousWorkouts = [];
 			data.forEach((workout) => {
 				previousWorkouts.push({
-                    workoutId: workout.id,
-                    exercises: workout.data().exercises,
-					createdAt: workout.data().createdAt,
+                    workoutId:    workout.id,
+                    exercises:    workout.data().exercises,
+                    muscleGroups: workout.data().muscleGroups,
+					createdAt:    workout.data().createdAt,
 				});
 			});
 			return response.json(previousWorkouts);
