@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import DeleteIcon from '@material-ui/icons/Delete';
+import ErrorIcon from '@material-ui/icons/Error';
 import Paper from '@material-ui/core/Paper'
 import withStyles from '@material-ui/core/styles/withStyles'
 
@@ -23,6 +24,12 @@ const styles = ((theme) => ({
 		zIndex: '1000',
 		height: '31px',
 		width: '31px',
+		left: '50%',
+		top: '35%'
+  },
+  errorIcon: {
+		position: 'fixed',
+		zIndex: '1000',
 		left: '50%',
 		top: '35%'
   },
@@ -82,16 +89,13 @@ const PreviousWorkoutList = (props) => {
           {uiLoading && <CircularProgress size={150} className={classes.uiProgess} />}
         </main>
       )
-    // } else if (previousWorkous.length === 0) {
-    //   return(
-    //     <React.Fragment>
-    //       <div className={classes.toolbar} />
-
-    //       <div>
-    //         It looks like you don't have any previous workouts stored yet
-    //       </div>
-    //     </React.Fragment>
-    //   )
+    } else if (previousWorkous.length === 0) {
+      return(
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          <ErrorIcon className={classes.errorIcon} />
+        </main>
+      )
     } else {
       return(
         <>
