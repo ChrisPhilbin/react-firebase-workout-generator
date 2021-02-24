@@ -110,6 +110,7 @@ const Exercise = (props) => {
     let [buttonType, setButtonType]                       = useState('')
     let [viewOpen, setViewOpen]                           = useState(false)
     let [availableMuscleGroups, setAvailableMuscleGroups] = useState([])
+    let [filteredBy, setFilteredBy]                       = useState('')
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -235,6 +236,15 @@ const Exercise = (props) => {
 
     const handleClose = (event) => {
         setOpen(false)
+    }
+
+    const filterExercises = (s) => {
+        setFilteredBy(n)
+        setExercises(
+            exercises.filter( (e) => {
+                return e.muscleGroup === filteredBy
+            })
+        )
     }
 
     const { classes } = props

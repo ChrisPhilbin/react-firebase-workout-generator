@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import DeleteIcon from '@material-ui/icons/Delete';
-import ErrorIcon from '@material-ui/icons/Error';
+import DeleteIcon from '@material-ui/icons/Delete'
+import ErrorIcon from '@material-ui/icons/Error'
+import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
@@ -18,7 +19,9 @@ const styles = ((theme) => ({
   toolbar: theme.mixins.toolbar,
 
   root: {
-    width: '500'
+    flexGrow: 1,
+    padding: 20,
+    width: 500
   },
 
   uiProgess: {
@@ -28,6 +31,11 @@ const styles = ((theme) => ({
 		width: '31px',
 		left: '50%',
 		top: '35%'
+  },
+  delete: {
+    position: 'absolute',
+    top: 0,
+    right: 0
   },
   errorIcon: {
 		position: 'fixed',
@@ -39,6 +47,10 @@ const styles = ((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  paper: {
+    padding: theme.spacing(2),
+    position: 'relative',
+  }
   
   })
 )
@@ -107,28 +119,44 @@ const PreviousWorkoutList = (props) => {
           <div className={classes.toolbar} />
 
           <div className={classes.root}>
+
+            <Grid
+              container
+              direction="column"
+              justify="flex-start"
+              alignItems="stretch"
+              spacing="3"
+            >
               {previousWorkouts.map((workout) => (
-                <Paper elevation={3}>
-                  <div key={workout.workoutId}>
-                    {moment(workout.createdAt).format('LL')}
-                    <IconButton aria-label="delete">
-                      <DeleteIcon onClick={() => handleDelete(workout)} />
-                    </IconButton>
-                    {workout.muscleGroups.map((group) => (
-                      <span>
-                        {`${group} `}
-                      </span>
-                    ))}
-                    {workout.exercises.map((exercise) =>(
-                      <div>
-                        {exercise.name}<br />
-                        {exercise.sets}<br />
-                        {exercise.reps}
-                      </div>
-                    ))}    
-                  </div>
-                </Paper>
+                <Grid item xs={12}>
+                  <Paper elevation={3} className={classes.paper}>
+                    <div key={workout.workoutId}>
+                      <IconButton className={classes.delete}>
+                        <DeleteIcon onClick={() => handleDelete(workout)} />
+                      </IconButton>
+                      <Typography variant="h4" noWrap>
+                        {moment(workout.createdAt).format('LL')}
+                      </Typography>
+                      <Typography variant="h6" noWrap>
+                        {workout.muscleGroups.map((group) => (
+                          <span>
+                            {`${group} `}
+                          </span>
+                        ))}
+                      </Typography>
+                      {workout.exercises.map((exercise) =>(
+                        <div>
+                          {exercise.name}<br />
+                          Reps: {exercise.sets}<br />
+                          Sets: {exercise.reps}<br />
+                          <p></p>
+                        </div>
+                      ))}    
+                    </div>
+                  </Paper>
+                </Grid>
               ))}
+            </Grid>
           </div>
         </>
       )
