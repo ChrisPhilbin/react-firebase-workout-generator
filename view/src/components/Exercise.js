@@ -101,6 +101,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const Exercise = (props) => {
 
     let [exercises, setExercises]                         = useState('')
+    let [filteredExercises, setFilteredExercises]         = useState('')
     let [name, setName]                                   = useState('')
     let [muscleGroup, setMuscleGroup]                     = useState('')
     let [exerciseId, setExerciseId]                       = useState('')
@@ -239,10 +240,10 @@ const Exercise = (props) => {
     }
 
     const filterExercises = (s) => {
-        setFilteredBy(n)
-        setExercises(
+        setFilteredBy(s)
+        setFilteredExercises(
             exercises.filter( (e) => {
-                return e.muscleGroup === filteredBy
+                return e.muscleGroup === s
             })
         )
     }
@@ -360,6 +361,31 @@ const Exercise = (props) => {
                     </Dialog>
 
                     <Grid container spacing={2}>
+                        <Select
+                            displayEmpty
+                            value={filteredBy}
+                            onChange={(e) => filterExercises(e.target.value)}
+                            input={<Input />}
+                            renderValue={(selected) => {
+                                if (selected.length === 0) {
+                                return <em>Filter by muscle group</em>;
+                                }
+
+                                return selected;
+                            }}
+                            MenuProps={MenuProps}
+                            inputProps={{ 'aria-label': 'Without label' }}
+                        >
+                            <MenuItem disabled value="">
+                                <em>Filter by muscle group</em>
+                            </MenuItem>
+                            {availableMuscleGroups.map((item) => (
+                                <MenuItem key={item.muscleGroupId} value={item.name}>
+                                    {item.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    
                         {exercises.map((exercise) => (
                             <Grid item xs={12} sm={6} key={exercise.exerciseId}>
                                 <Card className={classes.root} variant="outlined">
