@@ -101,7 +101,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const Exercise = (props) => {
 
     let [exercises, setExercises]                         = useState('')
-    let [filteredExercises, setFilteredExercises]         = useState('')
+    let [initialExercises, setInitialExercises]           = useState('')
     let [name, setName]                                   = useState('')
     let [muscleGroup, setMuscleGroup]                     = useState('')
     let [exerciseId, setExerciseId]                       = useState('')
@@ -130,6 +130,7 @@ const Exercise = (props) => {
           );
     
           setExercises(respExercises.data)
+          setInitialExercises(respExercises.data)
           setAvailableMuscleGroups(respMuscleGroups.data)
           setUiLoading(false)
         };
@@ -241,8 +242,8 @@ const Exercise = (props) => {
 
     const filterExercises = (s) => {
         setFilteredBy(s)
-        setFilteredExercises(
-            exercises.filter( (e) => {
+        setExercises(
+            initialExercises.filter( (e) => {
                 return e.muscleGroup === s
             })
         )
