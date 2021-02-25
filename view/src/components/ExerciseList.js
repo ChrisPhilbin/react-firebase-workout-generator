@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/IconButton'
+import TimerIcon from '@material-ui/icons/Timer'
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 
@@ -13,6 +15,11 @@ const useStyles = makeStyles((theme) => ({
       width: 500,
       padding: 20,
     },
+    floatingButton: {
+		position: 'fixed',
+		bottom: 0,
+		right: 0
+	},
     paper: {
       padding: theme.spacing(2),
       textAlign: 'center',
@@ -64,9 +71,22 @@ const ExerciseList = (props) => {
             })
     }
 
+    const openStopWatch = () => {
+        alert("Begin!")
+    }
+
     return(
         <>
             <div className={classes.toolbar} />
+
+            <IconButton
+                className={classes.floatingButton}
+                color="primary"
+                aria-label="Start the stop watch"
+                onClick={openStopWatch}
+            >
+                <TimerIcon style={{ fontSize: 60 }} />
+            </IconButton>
 
             <div className={classes.root}>
                 <Grid

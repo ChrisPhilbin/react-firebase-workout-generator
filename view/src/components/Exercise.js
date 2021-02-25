@@ -242,11 +242,15 @@ const Exercise = (props) => {
 
     const filterExercises = (s) => {
         setFilteredBy(s)
-        setExercises(
-            initialExercises.filter( (e) => {
-                return e.muscleGroup === s
-            })
-        )
+        if (s != "") {
+            setExercises(
+                initialExercises.filter( (e) => {
+                    return e.muscleGroup === s
+                })
+            )
+        } else {
+            setExercises(initialExercises)
+        } 
     }
 
     const { classes } = props
@@ -362,31 +366,32 @@ const Exercise = (props) => {
                     </Dialog>
 
                     <Grid container spacing={2}>
-                        <Select
-                            displayEmpty
-                            value={filteredBy}
-                            onChange={(e) => filterExercises(e.target.value)}
-                            input={<Input />}
-                            renderValue={(selected) => {
-                                if (selected.length === 0) {
-                                return <em>Filter by muscle group</em>;
-                                }
+                        <Grid item xs={12}>
+                            <Select
+                                displayEmpty
+                                value={filteredBy}
+                                onChange={(e) => filterExercises(e.target.value)}
+                                input={<Input />}
+                                renderValue={(selected) => {
+                                    if (selected.length === 0) {
+                                    return <em>Filter by muscle group</em>;
+                                    }
 
-                                return selected;
-                            }}
-                            MenuProps={MenuProps}
-                            inputProps={{ 'aria-label': 'Without label' }}
-                        >
-                            <MenuItem disabled value="">
-                                <em>Filter by muscle group</em>
-                            </MenuItem>
-                            {availableMuscleGroups.map((item) => (
-                                <MenuItem key={item.muscleGroupId} value={item.name}>
-                                    {item.name}
+                                    return selected;
+                                }}
+                                MenuProps={MenuProps}
+                                inputProps={{ 'aria-label': 'Without label' }}
+                            >
+                                <MenuItem value="">
+                                    <em>Filter by muscle group</em>
                                 </MenuItem>
-                            ))}
-                        </Select>
-                    
+                                {availableMuscleGroups.map((item) => (
+                                    <MenuItem key={item.muscleGroupId} value={item.name}>
+                                        {item.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </Grid>
                         {exercises.map((exercise) => (
                             <Grid item xs={12} sm={6} key={exercise.exerciseId}>
                                 <Card className={classes.root} variant="outlined">
